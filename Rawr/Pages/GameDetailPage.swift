@@ -103,125 +103,129 @@ struct GameDetailPage: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 35)
 
-                VStack(spacing: 8) {
-                    HStack {
-                        Text("Platform")
-                            .customFont(.caption, .bold)
-                        Spacer()
-                        Text("Rating")
-                            .customFont(.caption, .bold)
-                    }
-                    HStack {
+                if downloadState == .new && gameDetail == nil {
+                    ProgressView()
+                } else {
+                    VStack(spacing: 8) {
                         HStack {
-                            if downloadState == .downloaded {
-                                PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
-                            }
+                            Text("Platform")
+                                .customFont(.caption, .bold)
                             Spacer()
-                            RatingView(game.rating)
+                            Text("Rating")
+                                .customFont(.caption, .bold)
+                        }
+                        HStack {
+                            HStack {
+                                if downloadState == .downloaded {
+                                    PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
+                                }
+                                Spacer()
+                                RatingView(game.rating)
+                            }
                         }
                     }
-                }
-                .padding(.horizontal, 35)
+                    .padding(.horizontal, 35)
 
-                if let age = gameDetail?.esrbRating?.name {
-                    HStack(spacing: 10) {
-                        Text("Age Rating:")
+                    if let age = gameDetail?.esrbRating?.name {
+                        HStack(spacing: 10) {
+                            Text("Age Rating:")
+                                .customFont(.caption, .bold)
+                            Tag("\(age)")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 35)
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Genre:")
                             .customFont(.caption, .bold)
-                        Tag("\(age)")
+                            .padding(.horizontal, 35)
+                        if let genres =  gameDetail?.genres {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    ForEach(genres) { genre in
+                                        Tag("\(genre.name)")
+                                    }
+                                }
+                                .padding(.horizontal, 35)
+                                .padding(.vertical, 1)
+                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 35)
-                }
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Genre:")
-                        .customFont(.caption, .bold)
-                        .padding(.horizontal, 35)
-                    if let genres =  gameDetail?.genres {
+                    if let description = gameDetail?.descriptionRaw {
+                        Text("\(description)")
+                            .lineLimit(isShowingFullDescription ? .max : 5)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .customFont(.body)
+                            .padding(.horizontal, 35)
+                            .onTapGesture {
+                                isShowingFullDescription.toggle()
+                            }
+                    }
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Screenshots")
+                            .customFont(.headline)
+                            .padding(.horizontal, 35)
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                ForEach(genres) { genre in
-                                    Tag("\(genre.name)")
+                            HStack(spacing: 16) {
+                                ForEach(screenshots ?? []) { screenshot in
+                                    VStack {
+                                        AsyncImage(url: URL(string: "\(screenshot.image)")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                    }
+                                    .frame(width: 225, height: 125, alignment: .center)
+                                    .background(Color.regularGray)
+                                    .cornerRadius(16)
                                 }
                             }
                             .padding(.horizontal, 35)
-                            .padding(.vertical, 1)
                         }
                     }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                if let description = gameDetail?.descriptionRaw {
-                    Text("\(description)")
-                        .lineLimit(isShowingFullDescription ? .max : 5)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .customFont(.body)
-                        .padding(.horizontal, 35)
-                        .onTapGesture {
-                            isShowingFullDescription.toggle()
-                        }
-                }
-
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Screenshots")
-                        .customFont(.headline)
-                        .padding(.horizontal, 35)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(screenshots ?? []) { screenshot in
-                                VStack {
-                                    AsyncImage(url: URL(string: "\(screenshot.image)")) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                }
-                                .frame(width: 225, height: 125, alignment: .center)
-                                .background(Color.regularGray)
-                                .cornerRadius(16)
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Information")
+                            .customFont(.headline)
+                        if let gameDetail: GameDetail = gameDetail {
+                            HStack {
+                                Text("Website")
+                                    .customFont(.subheadline, .bold)
+                                Spacer()
+                                Image(systemName: "safari")
                             }
+                            .onTapGesture {
+                                openURL(URL(string: "\(gameDetail.website)")!)
+                            }
+                            InformationDescription(
+                                title: "Platform",
+                                description: "\(mapMultipleStringWithComa(game.platforms.map { $0.platform.name }))"
+                            )
+                            InformationDescription(
+                                title: "Genre",
+                                description: "\(mapMultipleStringWithComa(gameDetail.genres.map { $0.name }))"
+                            )
+                            InformationDescription(
+                                title: "Release Date",
+                                description: "\(game.released)"
+                            )
+                            InformationDescription(
+                                title: "Publisher",
+                                description: "\(mapMultipleStringWithComa(gameDetail.publishers.map { $0.name }))"
+                            )
                         }
-                        .padding(.horizontal, 35)
                     }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.horizontal, 35)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Information")
-                        .customFont(.headline)
-                    if let gameDetail: GameDetail = gameDetail {
-                        HStack {
-                            Text("Website")
-                                .customFont(.subheadline, .bold)
-                            Spacer()
-                            Image(systemName: "safari")
-                        }
-                        .onTapGesture {
-                            openURL(URL(string: "\(gameDetail.website)")!)
-                        }
-                        InformationDescription(
-                            title: "Platform",
-                            description: "\(mapMultipleStringWithComa(game.platforms.map { $0.platform.name }))"
-                        )
-                        InformationDescription(
-                            title: "Genre",
-                            description: "\(mapMultipleStringWithComa(gameDetail.genres.map { $0.name }))"
-                        )
-                        InformationDescription(
-                            title: "Release Date",
-                            description: "\(game.released)"
-                        )
-                        InformationDescription(
-                            title: "Publisher",
-                            description: "\(mapMultipleStringWithComa(gameDetail.publishers.map { $0.name }))"
-                        )
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                .padding(.horizontal, 35)
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .ignoresSafeArea(.container, edges: .top)
