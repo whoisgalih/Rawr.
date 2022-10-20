@@ -5,8 +5,6 @@
 //  Created by Galih Akbar on 04/10/22.
 //
 
-import Foundation
-
 // MARK: - GameResponse
 struct GamesResponse: Codable {
     let count: Int

@@ -10,6 +10,8 @@ import SwiftUI
 struct GameDetailPage: View {
     @Environment(\.openURL) private var openURL
 
+    let network: NetworkService = NetworkService()
+
     let game: Game
     @State private var gameDetail: GameDetail?
     @State private var screenshots: [Screenshot]?
@@ -36,26 +38,6 @@ struct GameDetailPage: View {
             stringResult += ", and \(lastStr)"
 
             return stringResult
-        }
-    }
-
-    func getGame(_ gameID: Int) async {
-        let network = NetworkService()
-        do {
-            gameDetail = try await network.getGameDetail(gameID: game.id)
-            downloadState = .downloaded
-        } catch {
-            downloadState = .failed
-        }
-    }
-
-    func getScennshots(_ gameID: Int) async {
-        let network = NetworkService()
-        do {
-            screenshots = try await network.getScreenshot(gameID: game.id)
-            downloadState = .downloaded
-        } catch {
-            downloadState = .failed
         }
     }
 
@@ -230,8 +212,8 @@ struct GameDetailPage: View {
         }
         .ignoresSafeArea(.container, edges: .top)
         .task {
-            await getGame(game.id)
-            await getScennshots(game.id)
+            await network.getGameDetail(gameID: game.id, gameDetail: $gameDetail, downloadState: $downloadState)
+            await network.getScreenshot(gameID: game.id, screenshots: $screenshots, downloadState: $downloadState)
         }
         .navigationTitle("\(game.name)")
     }
