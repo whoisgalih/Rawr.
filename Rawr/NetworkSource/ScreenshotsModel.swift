@@ -5,8 +5,6 @@
 //  Created by Galih Akbar on 07/10/22.
 //
 
-import Foundation
-
 // MARK: - Welcome
 struct ScreenshotResponse: Codable {
     let count: Int
