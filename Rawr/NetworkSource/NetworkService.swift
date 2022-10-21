@@ -26,10 +26,6 @@ class NetworkService {
         return value
     }
 
-    struct ResponseDetail: Codable {
-        let detail: String
-    }
-
     func getScreenshot(gameID: Int, screenshots: Binding<[Screenshot]?>, downloadState: Binding<DownloadState>) async {
         var components = URLComponents(string: "https://api.rawg.io/api/games/\(gameID)/screenshots")!
         components.queryItems = [
@@ -79,7 +75,13 @@ class NetworkService {
         }
     }
 
-    func getTrendingGames(_ page: Int) async throws -> ([Game], isNextalbe: Bool) {
+    func appendGame(
+        _ page: Int,
+        games: Binding<[Game]>,
+        isNextable: Binding<Bool>,
+        lastID: Binding<Int>,
+        downloadState: Binding<DownloadState>
+    ) async {
         var components = URLComponents(string: "https://api.rawg.io/api/games/lists/main")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey),
@@ -89,19 +91,24 @@ class NetworkService {
         ]
         let request = URLRequest(url: components.url!)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
 
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error: Can't fetching data.")
-        }
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+                fatalError("Error: Can't fetching data.")
+            }
 
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(GamesResponse.self, from: data)
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GamesResponse.self, from: data)
 
-        if result.next != nil {
-            return (gamesMapper(input: result.results), true)
-        } else {
-            return (gamesMapper(input: result.results), false)
+            let mappedGames = gamesMapper(input: result.results)
+
+            games.wrappedValue.append(contentsOf: mappedGames)
+            lastID.wrappedValue = mappedGames[mappedGames.count - 1].id
+            isNextable.wrappedValue = result.next != nil
+            downloadState.wrappedValue = .downloaded
+        } catch {
+            downloadState.wrappedValue = .failed
         }
     }
 

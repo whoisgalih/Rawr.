@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GamesListPage: View {
+    let network: NetworkService = NetworkService()
+
     @State private var games: [Game] = []
     @State private var isNextable: Bool = true
     @State private var lastID: Int = 0
@@ -18,19 +20,6 @@ struct GamesListPage: View {
     init() {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.titleTextAttributes = [.font: UIFont(name: "Poppins Medium", size: 18)!]
-    }
-
-    func appendGame(_ page: Int) async {
-        var gameInPage: [Game] = []
-        let network = NetworkService()
-        do {
-            (gameInPage, isNextable) = try await network.getTrendingGames(page)
-            games.append(contentsOf: gameInPage)
-            lastID = gameInPage[gameInPage.count - 1].id
-            downloadState = .downloaded
-        } catch {
-            downloadState = .failed
-        }
     }
 
     var body: some View {
@@ -68,7 +57,12 @@ struct GamesListPage: View {
                                         if isNextable && lastID == game.id {
                                             Task {
                                                 self.page += 1
-                                                await appendGame(page)
+                                                await network.appendGame(
+                                                    page, games: $games,
+                                                    isNextable: $isNextable,
+                                                    lastID: $lastID,
+                                                    downloadState: $downloadState
+                                                )
                                             }
                                         }
                                     }
@@ -98,7 +92,12 @@ struct GamesListPage: View {
                 .padding(.horizontal, 35)
                 .task {
                     if downloadState == .new {
-                        await appendGame(page)
+                        await network.appendGame(
+                            page, games: $games,
+                            isNextable: $isNextable,
+                            lastID: $lastID,
+                            downloadState: $downloadState
+                        )
                     }
                 }
             }
