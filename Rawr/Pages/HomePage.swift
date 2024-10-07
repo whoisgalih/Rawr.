@@ -22,12 +22,12 @@ struct HomePage: View {
                             .padding(.leading, 27)
                             .foregroundColor(.textSecondary)
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 
                 // MARK: Categories
                 Text("Categories")
                     .padding(.top, 6)
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                     .customFont(.title3)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -42,7 +42,7 @@ struct HomePage: View {
                         Category(name: "Racing", icon: Image("helmet"), active: false)
                         Category(name: "Sports", icon: Image("basketball"), active: false)
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 }
                 
                 // MARK: Trending Games
@@ -55,7 +55,7 @@ struct HomePage: View {
                         .foregroundColor(.textSecondary)
                 }
                 .padding(.top, 6)
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
@@ -63,7 +63,7 @@ struct HomePage: View {
                         
                         TrendingGame(platforms: ["windows", "mac"], gameTitle: "Game Title", gameImage: Image(systemName: "photo"))
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 }
                 
                 // MARK: Games of The Year
@@ -76,13 +76,13 @@ struct HomePage: View {
                         .foregroundColor(.textSecondary)
                 }
                 .padding(.top, 6)
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
                         NewGame()
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 }
                 
                 // MARK: Games of The Year
@@ -95,14 +95,14 @@ struct HomePage: View {
                         .foregroundColor(.textSecondary)
                 }
                 .padding(.top, 6)
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
                         GameOfTheYear()
                         GameOfTheYear()
                     }
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 }
                 
                 // MARK: Show All Games
@@ -123,7 +123,7 @@ struct HomePage: View {
                 }
                 .background(Color.regularGray)
                 .cornerRadius(28)
-            .padding(.horizontal, 35)
+            .padding(.horizontal, 16)
                 
             }
         }
