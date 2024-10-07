@@ -23,6 +23,8 @@
 		F6A52BE728E3D7AE0057CF23 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6A52BE328E3D7AE0057CF23 /* Poppins-Regular.ttf */; };
 		F6A52BE828E3D7AE0057CF23 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6A52BE428E3D7AE0057CF23 /* Poppins-SemiBold.ttf */; };
 		F6A52BEC28E3D9A50057CF23 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A52BEB28E3D9A50057CF23 /* Category.swift */; };
+		F6ADFE0429176E9600787C35 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ADFE0329176E9600787C35 /* ProfileEditView.swift */; };
+		F6ADFE1E2917B4AD00787C35 /* Rawr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6ADFE1C2917B4AD00787C35 /* Rawr.xcdatamodeld */; };
 		F6AF052D28D95E9900EA148E /* CustomFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AF052C28D95E9900EA148E /* CustomFont.swift */; };
 		F6BF05F628EA8DA1007F34EA /* InformationDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BF05F528EA8DA1007F34EA /* InformationDescription.swift */; };
 		F6BF05F928EBB482007F34EA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BF05F828EBB482007F34EA /* NetworkService.swift */; };
@@ -34,6 +36,7 @@
 		F6D8A35C28D7410300AA2919 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D8A35B28D7410300AA2919 /* ContentView.swift */; };
 		F6D8A35E28D7410400AA2919 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6D8A35D28D7410400AA2919 /* Assets.xcassets */; };
 		F6D8A36128D7410400AA2919 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6D8A36028D7410400AA2919 /* Preview Assets.xcassets */; };
+		F6FDD32029147AA8004EE9CE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FDD31F29147AA8004EE9CE /* UserModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +57,8 @@
 		F6A52BE328E3D7AE0057CF23 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		F6A52BE428E3D7AE0057CF23 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		F6A52BEB28E3D9A50057CF23 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		F6ADFE0329176E9600787C35 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
+		F6ADFE1D2917B4AD00787C35 /* Rawr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rawr.xcdatamodel; sourceTree = "<group>"; };
 		F6AF052C28D95E9900EA148E /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
 		F6BF05F528EA8DA1007F34EA /* InformationDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationDescription.swift; sourceTree = "<group>"; };
 		F6BF05F828EBB482007F34EA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -66,6 +71,7 @@
 		F6D8A35B28D7410300AA2919 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F6D8A35D28D7410400AA2919 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6D8A36028D7410400AA2919 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F6FDD31F29147AA8004EE9CE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,7 @@
 				F6A1A94B28E66F39005A6116 /* GamesListPage.swift */,
 				F6A1A96728E71CD2005A6116 /* GameDetailPage.swift */,
 				F6A4660A28F2CFDE00533C02 /* ProfileView.swift */,
+				F6ADFE0329176E9600787C35 /* ProfileEditView.swift */,
 				F6A4661128F3B96900533C02 /* Launch Screen.storyboard */,
 			);
 			path = Pages;
@@ -124,6 +131,14 @@
 				F69BCE9728E52B400078D3CA /* Poppins-SemiBoldItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F6ADFE1B2917B37300787C35 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				F6ADFE1C2917B4AD00787C35 /* Rawr.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		F6BF05F728EBB464007F34EA /* NetworkSource */ = {
@@ -159,6 +174,7 @@
 				F6A4661028F2D45100533C02 /* Info.plist */,
 				F6D8A35928D7410300AA2919 /* RawrApp.swift */,
 				F6D8A35B28D7410300AA2919 /* ContentView.swift */,
+				F6FDD31D29147A87004EE9CE /* Storage */,
 				F6A1A94A28E66F1C005A6116 /* Pages */,
 				F6BF05F728EBB464007F34EA /* NetworkSource */,
 				F6A1A94D28E66F5E005A6116 /* Extensions */,
@@ -176,6 +192,23 @@
 				F6D8A36028D7410400AA2919 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F6FDD31D29147A87004EE9CE /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F6ADFE1B2917B37300787C35 /* CoreData */,
+				F6FDD31E29147A90004EE9CE /* UsersDefault */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		F6FDD31E29147A90004EE9CE /* UsersDefault */ = {
+			isa = PBXGroup;
+			children = (
+				F6FDD31F29147AA8004EE9CE /* UserModel.swift */,
+			);
+			path = UsersDefault;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,7 +304,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#export PATH=\"$PATH:/opt/homebrew/bin\"\n#if which swiftlint > /dev/null; then\n#  swiftlint\n#else\n#  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -291,13 +324,16 @@
 				F60CB25A28F0373F0094C49A /* ScreenshotsModel.swift in Sources */,
 				F60CB25828F013E40094C49A /* GemeModel.swift in Sources */,
 				F6D8A35C28D7410300AA2919 /* ContentView.swift in Sources */,
+				F6ADFE1E2917B4AD00787C35 /* Rawr.xcdatamodeld in Sources */,
 				F6A1A96828E71CD2005A6116 /* GameDetailPage.swift in Sources */,
 				F6A1A94C28E66F39005A6116 /* GamesListPage.swift in Sources */,
 				F6D8A35A28D7410300AA2919 /* RawrApp.swift in Sources */,
 				F6D008B828E18602002CF8DC /* CustomColor.swift in Sources */,
 				F69BCE9128E511100078D3CA /* Rating.swift in Sources */,
+				F6ADFE0429176E9600787C35 /* ProfileEditView.swift in Sources */,
 				F6A4660B28F2CFDE00533C02 /* ProfileView.swift in Sources */,
 				F6A1A94628E531EA005A6116 /* RoundedRectangle.swift in Sources */,
+				F6FDD32029147AA8004EE9CE /* UserModel.swift in Sources */,
 				F6A52BEC28E3D9A50057CF23 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -505,6 +541,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F6ADFE1C2917B4AD00787C35 /* Rawr.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F6ADFE1D2917B4AD00787C35 /* Rawr.xcdatamodel */,
+			);
+			currentVersion = F6ADFE1D2917B4AD00787C35 /* Rawr.xcdatamodel */;
+			path = Rawr.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F6D8A34E28D7410200AA2919 /* Project object */;
 }

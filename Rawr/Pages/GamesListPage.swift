@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GamesListPage: View {
+    @ObservedObject var userModel: UserModel
+    
     let network: NetworkService = NetworkService()
 
     @State private var games: [Game] = []
@@ -17,9 +19,11 @@ struct GamesListPage: View {
     @State private var downloadState: DownloadState = .new
     @State private var displayNavTitle: Bool = false
 
-    init() {
+    init(_ userModel: UserModel) {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.titleTextAttributes = [.font: UIFont(name: "Poppins Medium", size: 18)!]
+        
+        self.userModel = userModel
     }
 
     var body: some View {
@@ -38,7 +42,7 @@ struct GamesListPage: View {
                             .customFont(.largeTitle, .bold)
                         Spacer()
                         NavigationLink {
-                            ProfileView()
+                            ProfileView(userModel: userModel)
                         } label: {
                             Image("galih")
                                 .resizable()
@@ -111,6 +115,6 @@ struct GamesListPage: View {
 
 struct GamesListPage_Previews: PreviewProvider {
     static var previews: some View {
-        GamesListPage()
+        GamesListPage(UserModel())
     }
 }
