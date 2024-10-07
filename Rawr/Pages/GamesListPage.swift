@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GamesListPage: View {
-    @ObservedObject var userModel: UserModel
+    @EnvironmentObject var userModel: UserModel
     
     let network: NetworkService = NetworkService()
 
@@ -18,11 +18,9 @@ struct GamesListPage: View {
     @State private var page: Int = 1
     @State private var downloadState: DownloadState = .new
     
-    init(_ userModel: UserModel) {
+    init() {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.titleTextAttributes = [.font : UIFont(name: "Poppins Medium", size: 18)!]
-        
-        self.userModel = userModel
     }
     
     var body: some View {
@@ -82,23 +80,6 @@ struct GamesListPage: View {
                 }
             }
             .navigationTitle("Games")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        ProfileView(userModel: userModel)
-                    } label: {
-                        Image("galih")
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(Circle())
-                            .frame(width: 28)
-                            .padding(1)
-                    }
-
-                }
-            }
-            
-            
         }
         .accentColor(.textPrimary)
     }
@@ -106,32 +87,9 @@ struct GamesListPage: View {
 
 struct GamesListPage_Previews: PreviewProvider {
     static var previews: some View {
-        GamesListPage(UserModel())
-    }
-}
-
-
-struct BarContent: View {
-    var body: some View {
-        Button {
-            print("Profile tapped")
-        } label: {
-            ProfilePicture()
-        }
-    }
-}
-
-struct ProfilePicture: View {
-    var body: some View {
-        Circle()
-            .fill(
-                LinearGradient(
-                    gradient: Gradient(colors: [.red, .blue]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .frame(width: 40, height: 40)
-            .padding(.horizontal)
+        let context = PersistenceController.preview.container.viewContext
+        GamesListPage()
+            .environment(\.managedObjectContext, context)
+            .environmentObject(UserModel())
     }
 }

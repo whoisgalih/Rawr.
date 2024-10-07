@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var userModel = UserModel()
-    
-    
     var body: some View {
-        GamesListPage(userModel)
+        MainTabView()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(UserModel())
     }
 }

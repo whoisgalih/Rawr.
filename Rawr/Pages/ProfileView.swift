@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var userModel: UserModel
+    @EnvironmentObject var userModel: UserModel
     @State private var showEditView: Bool = false
     
     private enum CoordinateSpaces {
@@ -62,6 +62,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(userModel: UserModel())
+        ProfileView()
+            .environmentObject(UserModel())
     }
 }

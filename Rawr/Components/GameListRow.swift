@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct GameListRow: View {
+    @Environment(\.managedObjectContext) private var viewContext
     let game: Game
+
+    @State private var isFavorite: Bool = false
     
     var body: some View {
         HStack(spacing: 16) {
@@ -26,12 +29,32 @@ struct GameListRow: View {
                     Image(systemName: "photo")
                 }
                 
-                RatingView(game.rating)
-                    .padding(4)
-                    .padding(.horizontal, 2)
-                    .background(.regularMaterial)
-                    .cornerRadius(8)
-                    .padding(8)
+                HStack {
+                    // Favorite Button
+                    Button(action: {
+                        if isFavorite {
+                            FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
+                        } else {
+                            FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
+                        }
+                        isFavorite.toggle()
+                    }) {
+                        Image(systemName: isFavorite ? "heart.fill" : "heart")
+                            .frame(width: 30)
+                            .foregroundColor(isFavorite ? .red : .gray)
+                    }
+                        .padding(4)
+                        .background(.regularMaterial)
+                        .cornerRadius(8)
+                        .padding(8)
+                    Spacer()
+                    RatingView(game.rating)
+                        .padding(4)
+                        .padding(.horizontal, 2)
+                        .background(.regularMaterial)
+                        .cornerRadius(8)
+                        .padding(8)
+                }
                     
             }
             .frame(width: 140, height: 180)
@@ -60,12 +83,17 @@ struct GameListRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: 180)
+        .onAppear {
+            isFavorite = FavoriteManager.isGameFavorite(game: game, context: viewContext)
+        }
     }
 }
 
 struct GameListRow_Previews: PreviewProvider {
     static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
         GameListRow(game: exampleGame)
+            .environment(\.managedObjectContext, context)
             .previewLayout(.sizeThatFits)
     }
 }

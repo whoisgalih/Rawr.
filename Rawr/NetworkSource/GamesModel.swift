@@ -5,6 +5,8 @@
 //  Created by Galih Akbar on 04/10/22.
 //
 
+import CoreData;
+
 // MARK: - GameResponse
 struct GamesResponse: Codable {
     let count: Int
@@ -104,6 +106,40 @@ struct Game: Identifiable {
         self.backgroundImage = backgroundImage
         self.rating = rating
         self.platforms = parentPlatforms
+    }
+    
+    func saveToCoreData(context: NSManagedObjectContext) {
+        let favoriteGame = FavoriteGame(context: context)
+        favoriteGame.id = Int64(id)
+        favoriteGame.slug = slug
+        favoriteGame.name = name
+        favoriteGame.released = released
+        favoriteGame.backgroundImage = backgroundImage
+        favoriteGame.rating = rating
+
+        do {
+            try context.save()
+            print("Saved game to favorites!")
+        } catch {
+            print("Failed to save favorite game: \(error)")
+        }
+    }
+}
+
+extension Game {
+    func removeFromFavorites(context: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<FavoriteGame> = FavoriteGame.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        
+        do {
+            let favoriteGames = try context.fetch(fetchRequest)
+            for favoriteGame in favoriteGames {
+                context.delete(favoriteGame)
+            }
+            try context.save()
+        } catch {
+            print("Failed to remove favorite game: \(error)")
+        }
     }
 }
 

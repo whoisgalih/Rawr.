@@ -123,7 +123,7 @@ struct HomePage: View {
                 }
                 .background(Color.regularGray)
                 .cornerRadius(28)
-            .padding(.horizontal, 16)
+                .padding(.horizontal, 16)
                 
             }
         }
