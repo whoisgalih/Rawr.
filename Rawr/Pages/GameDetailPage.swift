@@ -108,7 +108,7 @@ struct GameDetailPage: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -128,7 +128,7 @@ struct GameDetailPage: View {
                         }
                     }
                 }
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 if let age = gameDetail?.esrbRating?.name {
                     HStack(spacing: 10) {
                         Text("Age Rating:")
@@ -136,13 +136,13 @@ struct GameDetailPage: View {
                         Tag("\(age)")
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 35)
+                    .padding(.horizontal, 16)
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Genre:")
                         .customFont(.caption, .bold)
-                        .padding(.horizontal, 35)
+                        .padding(.horizontal, 16)
                     if let genres =  gameDetail?.genres {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
@@ -150,7 +150,7 @@ struct GameDetailPage: View {
                                     Tag("\(genre.name)")
                                 }
                             }
-                            .padding(.horizontal, 35)
+                            .padding(.horizontal, 16)
                             .padding(.vertical, 1)
                         }
                     }
@@ -162,7 +162,7 @@ struct GameDetailPage: View {
                         .lineLimit(isShowingFullDescription ? .max : 5)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .customFont(.body)
-                        .padding(.horizontal, 35)
+                        .padding(.horizontal, 16)
                         .onTapGesture {
                             isShowingFullDescription.toggle()
                         }
@@ -171,7 +171,7 @@ struct GameDetailPage: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Screenshots")
                         .customFont(.headline)
-                        .padding(.horizontal, 35)
+                        .padding(.horizontal, 16)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(screenshots ?? []) { screenshot in
@@ -189,7 +189,7 @@ struct GameDetailPage: View {
                                 .cornerRadius(16)
                             }
                         }
-                        .padding(.horizontal, 35)
+                        .padding(.horizontal, 16)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -218,7 +218,7 @@ struct GameDetailPage: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .topLeading)
                 
-                .padding(.horizontal, 35)
+                .padding(.horizontal, 16)
                 
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
