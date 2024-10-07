@@ -41,33 +41,6 @@ struct FavoritesPage: View {
     }
 }
 
-extension FavoriteGame {
-    @NSManaged public var platforms: [String]
-}
-
-extension FavoriteGame {
-    func toGame() -> Game? {
-        guard
-            let name = name,
-            let slug = slug,
-            let released = released
-        else {
-            return nil
-        }
-        
-        return Game(
-            id: Int(id),
-            slug: slug,
-            name: name,
-            released: released,
-            backgroundImage: "",
-            rating: rating,
-            parentPlatforms: []
-        )
-    }
-}
-
-
 struct FavoritesPage_Previews: PreviewProvider {
     static var previews: some View {
         let context = PersistenceController.preview.container.viewContext

@@ -101,49 +101,33 @@ struct GameDetailPage: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Platform")
+                            .customFont(.caption, .bold)
+                        Spacer()
+                        Text("Rating")
+                            .customFont(.caption, .bold)
+                    }
+                    HStack {
+                        HStack {
+                            PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
+                            Spacer()
+                            RatingView(game.rating)
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
 
                 if downloadState == .new && gameDetail == nil {
-                    VStack(spacing: 8) {
-                        HStack {
-                            Text("Release Date")
-                                .customFont(.caption, .bold)
-                            Spacer()
-                            Text("Rating")
-                                .customFont(.caption, .bold)
-                        }
-                        HStack {
-                            HStack {
-                                Text("\(game.released)")
-                                    .customFont(.subheadline)
-                                    .foregroundColor(.textSecondary)
-                                Spacer()
-                                RatingView(game.rating)
-                            }
-                        }
+                    HStack() {
+                        InformationDescription(title: "Release Date", description: game.released)
+                        Spacer()
                     }
                     .padding(.horizontal, 16)
                     ProgressView()
                 } else {
-                    VStack(spacing: 8) {
-                        HStack {
-                            Text("Platform")
-                                .customFont(.caption, .bold)
-                            Spacer()
-                            Text("Rating")
-                                .customFont(.caption, .bold)
-                        }
-                        HStack {
-                            HStack {
-                                if downloadState == .downloaded {
-                                    PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
-                                }
-                                Spacer()
-                                RatingView(game.rating)
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 16)
-
                     if let age = gameDetail?.esrbRating?.name {
                         HStack(spacing: 10) {
                             Text("Age Rating:")

@@ -14,9 +14,14 @@ class FavoriteManager {
         favoriteGame.slug = game.slug
         favoriteGame.name = game.name
         favoriteGame.released = game.released
-//        favoriteGame.backgroundImage = game.backgroundImage
         favoriteGame.rating = game.rating
+        
+        // Encode parent platforms to JSON
+        if let platformsData = try? JSONEncoder().encode(game.platforms) {
+            favoriteGame.platforms = platformsData
+        }
 
+        // Background Image
         if let url = URL(string: game.backgroundImage) {
             downloadImage(from: url) { data in
                 if let imageData = data {
@@ -79,4 +84,44 @@ func downloadImage(from url: URL, completion: @escaping (Data?) -> Void) {
         }
         completion(data)
     }.resume()
+}
+
+extension FavoriteGame {
+    func toGame() -> Game? {
+        guard
+            let name = name,
+            let slug = slug,
+            let released = released,
+            let platforms = platforms
+        else {
+            return nil
+        }
+        
+        return Game(
+            id: Int(id),
+            slug: slug,
+            name: name,
+            released: released,
+            backgroundImage: "",
+            rating: rating,
+            parentPlatforms: getPlatforms()
+        )
+    }
+}
+
+
+extension FavoriteGame {
+    func getPlatforms() -> [ParentPlatform] {
+        guard let platformsData = self.platforms else {
+            return []
+        }
+        
+        do {
+            let parentPlatforms = try JSONDecoder().decode([ParentPlatform].self, from: platforms!)
+            return parentPlatforms
+        } catch {
+            print("Failed to decode parent platforms: \(error)")
+            return []
+        }
+    }
 }
