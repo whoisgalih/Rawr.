@@ -9,7 +9,6 @@ import SwiftUI
 
 struct Tag: View {
     let tag: String
-    
     var body: some View {
         Text("\(tag)")
             .customFont(.caption, .bold)
@@ -18,9 +17,9 @@ struct Tag: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 4)
                     .stroke()
-        }
+            }
     }
-    
+
     init(_ tag: String) {
         self.tag = tag
     }

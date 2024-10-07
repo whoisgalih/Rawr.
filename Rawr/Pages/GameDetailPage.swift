@@ -9,7 +9,9 @@ import SwiftUI
 
 struct GameDetailPage: View {
     @Environment(\.openURL) private var openURL
-    
+
+    let network: NetworkService = NetworkService()
+
     let game: Game
     @State private var gameDetail: GameDetail?
     @State private var screenshots: [Screenshot]?
@@ -24,45 +26,22 @@ struct GameDetailPage: View {
         self.game = game
     }
     
-    func mapDevelopersName(_ developers: [Developer]) -> String {
-        var developersString: [String] = developers.map { $0.name }
-        
-        if developers.count <= 1 {
-            return developersString[0]
+    func mapMultipleStringWithComa(_ stringsParams: [String]) -> String {
+        var strings: [String] = stringsParams
+
+        if strings.count <= 1 {
+            return strings[0]
         } else {
-            let lastDev: String = developersString.removeLast()
-            var stringResult: String = developersString.removeFirst()
-            
-            for devName in developersString {
-                stringResult += ", \(devName)"
+            let lastStr: String = strings.removeLast()
+            var stringResult: String = strings.removeFirst()
+
+            for str in strings {
+                stringResult += ", \(str)"
             }
-            
-            stringResult += ", and \(lastDev)"
-            
-            return lastDev
-        }
-        
-    }
-    
-    func getGame(_ gameID: Int) async {
-        let network = NetworkService()
-        do {
-            gameDetail = try await network.getGameDetail(gameID: game.id)
-            downloadState = .downloaded
-        } catch {
-            print(error)
-            downloadState = .failed
-        }
-    }
-    
-    func getScennshots(_ gameID: Int) async {
-        let network = NetworkService()
-        do {
-            screenshots = try await network.getScreenshot(gameID: game.id)
-            downloadState = .downloaded
-        } catch {
-            print(error)
-            downloadState = .failed
+
+            stringResult += ", and \(lastStr)"
+
+            return stringResult
         }
     }
     
@@ -90,140 +69,147 @@ struct GameDetailPage: View {
             }
             
             VStack(spacing: 20) {
-                VStack(spacing: 12) {
-                    VStack(alignment: .center, spacing: 0) {
-                        Text("\(game.name)")
-                            .customFont(.largeTitle, .bold)
-                            .multilineTextAlignment(.center)
-                        if let developers = gameDetail?.developers, developers.count > 0 {
-                            Text("\(mapDevelopersName(developers))")
-                                .customFont(.title3)
-                        }
+                VStack(alignment: .center, spacing: 0) {
+                    Text("\(game.name)")
+                        .customFont(.largeTitle, .bold)
+                        .multilineTextAlignment(.center)
+                    if let developers = gameDetail?.developers, developers.count > 0 {
+                        Text("\(mapMultipleStringWithComa(developers.map { $0.name }))")
+                            .customFont(.title3)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
-                
-                
-                VStack(spacing: 8) {
-                    HStack {
-                        Text("Platform")
-                            .customFont(.caption, .bold)
-                        Spacer()
-                        Text("Rating")
-                            .customFont(.caption, .bold)
-                    }
-                    HStack {
+
+                if downloadState == .new && gameDetail == nil {
+                    ProgressView()
+                } else {
+                    VStack(spacing: 8) {
                         HStack {
-                            if downloadState == .downloaded {
-                                PlatformIcons(platforms: game.parentPlatforms)
-                            }
+                            Text("Platform")
+                                .customFont(.caption, .bold)
                             Spacer()
-                            RatingView(game.rating)
+                            Text("Rating")
+                                .customFont(.caption, .bold)
+                        }
+                        HStack {
+                            HStack {
+                                if downloadState == .downloaded {
+                                    PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
+                                }
+                                Spacer()
+                                RatingView(game.rating)
+                            }
                         }
                     }
-                }
-                .padding(.horizontal, 16)
-                
-                if let age = gameDetail?.esrbRating?.name {
-                    HStack(spacing: 10) {
-                        Text("Age Rating:")
+                    .padding(.horizontal, 16)
+
+                    if let age = gameDetail?.esrbRating?.name {
+                        HStack(spacing: 10) {
+                            Text("Age Rating:")
+                                .customFont(.caption, .bold)
+                            Tag("\(age)")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Genre:")
                             .customFont(.caption, .bold)
-                        Tag("\(age)")
+                            .padding(.horizontal, 16)
+                        if let genres =  gameDetail?.genres {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    ForEach(genres) { genre in
+                                        Tag("\(genre.name)")
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 1)
+                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 16)
-                }
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Genre:")
-                        .customFont(.caption, .bold)
-                        .padding(.horizontal, 16)
-                    if let genres =  gameDetail?.genres {
+
+                    if let description = gameDetail?.descriptionRaw {
+                        Text("\(description)")
+                            .lineLimit(isShowingFullDescription ? .max : 5)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .customFont(.body)
+                            .padding(.horizontal, 16)
+                            .onTapGesture {
+                                isShowingFullDescription.toggle()
+                            }
+                    }
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Screenshots")
+                            .customFont(.headline)
+                            .padding(.horizontal, 16)
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                ForEach(genres) { genre in
-                                    Tag("\(genre.name)")
+                            HStack(spacing: 16) {
+                                ForEach(screenshots ?? []) { screenshot in
+                                    VStack {
+                                        AsyncImage(url: URL(string: "\(screenshot.image)")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                    }
+                                    .frame(width: 225, height: 125, alignment: .center)
+                                    .background(Color.regularGray)
+                                    .cornerRadius(16)
                                 }
                             }
                             .padding(.horizontal, 16)
-                            .padding(.vertical, 1)
                         }
                     }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                if let description = gameDetail?.descriptionRaw {
-                    Text("\(description)")
-                        .lineLimit(isShowingFullDescription ? .max : 5)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .customFont(.body)
-                        .padding(.horizontal, 16)
-                        .onTapGesture {
-                            isShowingFullDescription.toggle()
-                        }
-                }
-                
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Screenshots")
-                        .customFont(.headline)
-                        .padding(.horizontal, 16)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(screenshots ?? []) { screenshot in
-                                VStack {
-                                    AsyncImage(url: URL(string: "\(screenshot.image)")) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                }
-                                .frame(width: 225, height: 125, alignment: .center)
-                                .background(Color.regularGray)
-                                .cornerRadius(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Information")
+                            .customFont(.headline)
+                        if let gameDetail: GameDetail = gameDetail {
+                            HStack {
+                                Text("Website")
+                                    .customFont(.subheadline, .bold)
+                                Spacer()
+                                Image(systemName: "safari")
                             }
+                            .onTapGesture {
+                                openURL(URL(string: "\(gameDetail.website)")!)
+                            }
+                            InformationDescription(
+                                title: "Platform",
+                                description: "\(mapMultipleStringWithComa(game.platforms.map { $0.platform.name }))"
+                            )
+                            InformationDescription(
+                                title: "Genre",
+                                description: "\(mapMultipleStringWithComa(gameDetail.genres.map { $0.name }))"
+                            )
+                            InformationDescription(
+                                title: "Release Date",
+                                description: "\(game.released)"
+                            )
+                            InformationDescription(
+                                title: "Publisher",
+                                description: "\(mapMultipleStringWithComa(gameDetail.publishers.map { $0.name }))"
+                            )
                         }
-                        .padding(.horizontal, 16)
                     }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Information")
-                        .customFont(.headline)
-                    //                    Divider()
-                    //                        .frame(height: 2)
-                    //                        .overlay(Color(hex: "EAEAEA"))
-                    if let _gameDetail: GameDetail = gameDetail {
-                        HStack {
-                            Text("Website")
-                                .customFont(.subheadline, .bold)
-                            Spacer()
-                            Image(systemName: "safari")
-                        }
-                        .onTapGesture {
-                            openURL(URL(string: "\(_gameDetail.website)")!)
-                        }
-                        InformationDescription(title: "Platform", description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC")
-                        InformationDescription(title: "Platform", description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC")
-                        InformationDescription(title: "Platform", description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC")
-                        InformationDescription(title: "Platform", description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC")
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                
-                .padding(.horizontal, 16)
-                
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .background(Color.white)
         }
         .task {
-            await getGame(game.id)
-            await getScennshots(game.id)
+            await network.getGameDetail(gameID: game.id, gameDetail: $gameDetail, downloadState: $downloadState)
+            await network.getScreenshot(gameID: game.id, screenshots: $screenshots, downloadState: $downloadState)
         }
         .navigationTitle("\(game.name)")
         .navigationBarTitleDisplayMode(.inline)

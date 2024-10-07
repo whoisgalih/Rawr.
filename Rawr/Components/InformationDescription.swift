@@ -25,7 +25,10 @@ struct InformationDescription: View {
 
 struct InformationDescription_Previews: PreviewProvider {
     static var previews: some View {
-        InformationDescription(title: "Platform", description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC")
-            .previewLayout(.sizeThatFits)
+        InformationDescription(
+            title: "Platform",
+            description: "PlayStation 4, Xbox One, Xbox Series S/X, PlayStation 5, PC"
+        )
+        .previewLayout(.sizeThatFits)
     }
 }

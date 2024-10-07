@@ -10,7 +10,6 @@ import SwiftUI
 struct PlatformIcons: View {
     let platforms: [String]
     let size: Double = 28
-    
     var body: some View {
         ScrollView(.horizontal) {
             HStack(alignment: .center, spacing: 4) {
@@ -21,7 +20,6 @@ struct PlatformIcons: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("mac") {
                     Image("apple")
                         .renderingMode(.template)
@@ -29,7 +27,6 @@ struct PlatformIcons: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("linux") {
                     Image("linux")
                         .renderingMode(.template)
@@ -38,7 +35,6 @@ struct PlatformIcons: View {
                         .padding(4)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("web") {
                     Image(systemName: "globe")
                         .resizable()
@@ -46,7 +42,6 @@ struct PlatformIcons: View {
                         .padding(4)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("ios") {
                     Image(systemName: "iphone")
                         .resizable()
@@ -54,7 +49,6 @@ struct PlatformIcons: View {
                         .padding(4)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("android") {
                     Image("android")
                         .renderingMode(.template)
@@ -63,7 +57,6 @@ struct PlatformIcons: View {
                         .padding(4)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("playstation") {
                     Image("playstation")
                         .renderingMode(.template)
@@ -72,7 +65,6 @@ struct PlatformIcons: View {
                         .padding(2)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("nintendo") {
                     Image("nintendo")
                         .renderingMode(.template)
@@ -81,7 +73,6 @@ struct PlatformIcons: View {
                         .padding(4)
                         .frame(width: size, height: size)
                 }
-                
                 if platforms.contains("xbox") {
                     Image("xbox")
                         .renderingMode(.template)

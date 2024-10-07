@@ -10,7 +10,6 @@ import SwiftUI
 struct RatingView: View {
     let rating: Double
     let size: Double
-    
     var body: some View {
         HStack(alignment: .center) {
             Image(systemName: "star.fill")
@@ -22,7 +21,6 @@ struct RatingView: View {
                 .font(.system(size: size))
         }
     }
-    
     init(_ rating: Double, size: Double = 14) {
         self.rating = rating
         self.size = size

@@ -10,7 +10,6 @@ import SwiftUI
 struct CustomFont: ViewModifier {
     var textStyle: TextStyle
     var weight: FontWeight
-    
     var name: String {
         switch weight {
         case .regular:
@@ -31,7 +30,6 @@ struct CustomFont: ViewModifier {
             }
         }
     }
-    
     var size: CGFloat {
         switch textStyle {
         case .largeTitle:
@@ -60,7 +58,6 @@ struct CustomFont: ViewModifier {
             return 12
         }
     }
-    
     var relative: Font.TextStyle {
         switch textStyle {
         case .largeTitle:
@@ -89,7 +86,6 @@ struct CustomFont: ViewModifier {
             return .caption
         }
     }
-    
     func body(content: Content) -> some View {
         content.font(.custom(name, size: size, relativeTo: relative))
     }
@@ -106,7 +102,6 @@ enum FontWeight {
     case bold
 }
 
-
 enum TextStyle {
     case largeTitle
     case title
@@ -121,4 +116,3 @@ enum TextStyle {
     case caption
     case caption2
 }
-

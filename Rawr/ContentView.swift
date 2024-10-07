@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var userModel = UserModel()
+    
+    
     var body: some View {
-        GamesListPage()
+        GamesListPage(userModel)
     }
 }
 

@@ -5,81 +5,83 @@
 //  Created by Galih Akbar on 04/10/22.
 //
 
-import Foundation
+import SwiftUI
 
 enum DownloadState {
-  case new, downloaded, failed
+    case new, downloaded, failed
 }
 
 class NetworkService {
     // MARK: Gunakan API Key dalam akun Anda.
-    let apiKey = "471c11ead5834a83b411b5ebb9f5ca66"
-    
-    struct ResponseDetail: Codable {
-        let detail: String
+    private var apiKey: String {
+        // 1
+        guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+            fatalError("Couldn't find file 'Info.plist'.")
+        }
+        // 2
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "API_KEY") as? String else {
+            fatalError("Couldn't find key 'API_KEY' in 'Info.plist'.")
+        }
+        return value
     }
-    
-    func getDataFromAPI(url: String, urlQueryItems: [URLQueryItem]) async throws -> [Game] {
-        var components = URLComponents(string: url)!
+
+    func getScreenshot(gameID: Int, screenshots: Binding<[Screenshot]?>, downloadState: Binding<DownloadState>) async {
+        var components = URLComponents(string: "https://api.rawg.io/api/games/\(gameID)/screenshots")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey)
         ]
-        
-        components.queryItems?.append(contentsOf: urlQueryItems)
-        
+
         let request = URLRequest(url: components.url!)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error: Can't fetching data.")
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+                fatalError("Error: Can't fetching data.")
+            }
+
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ScreenshotResponse.self, from: data)
+
+            screenshots.wrappedValue = result.results
+            downloadState.wrappedValue = .downloaded
+        } catch {
+            downloadState.wrappedValue = .failed
         }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(GamesResponse.self, from: data)
-        
-        return gamesMapper(input: result.results)
     }
-    
-    func getScreenshot(gameID: Int) async throws -> [Screenshot] {
-        var components = URLComponents(string: "https://api.rawg.io/api/games/\(gameID)/screenshots")!
-        components.queryItems = [
-            URLQueryItem(name: "key", value: apiKey),
-        ]
-        let request = URLRequest(url: components.url!)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error: Can't fetching data.")
-        }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(ScreenshotResponse.self, from: data)
-        
-        return result.results
-    }
-    
-    func getGameDetail(gameID: Int) async throws -> GameDetail {
+
+    func getGameDetail(gameID: Int, gameDetail: Binding<GameDetail?>, downloadState: Binding<DownloadState>) async {
         var components = URLComponents(string: "https://api.rawg.io/api/games/\(gameID)")!
         components.queryItems = [
-            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "key", value: apiKey)
         ]
         let request = URLRequest(url: components.url!)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error: Can't fetching data.")
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+                fatalError("Error: Can't fetching data.")
+            }
+
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GameDetail.self, from: data)
+
+            gameDetail.wrappedValue = result
+            downloadState.wrappedValue = .downloaded
+        } catch {
+            downloadState.wrappedValue = .failed
         }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(GameDetail.self, from: data)
-        
-        return result
     }
-    
-    func getTrendingGames(_ page: Int) async throws -> ([Game], isNextalbe: Bool) {
+
+    func appendGame(
+        _ page: Int,
+        games: Binding<[Game]>,
+        isNextable: Binding<Bool>,
+        lastID: Binding<Int>,
+        downloadState: Binding<DownloadState>
+    ) async {
         var components = URLComponents(string: "https://api.rawg.io/api/games/lists/main")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey),
@@ -88,24 +90,28 @@ class NetworkService {
             URLQueryItem(name: "page", value: "\(page)")
         ]
         let request = URLRequest(url: components.url!)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error: Can't fetching data.")
-        }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(GamesResponse.self, from: data)
-        
-        if result.next != nil {
-            return (gamesMapper(input: result.results), true)
-        } else {
-            return (gamesMapper(input: result.results), false)
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+                fatalError("Error: Can't fetching data.")
+            }
+
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GamesResponse.self, from: data)
+
+            let mappedGames = gamesMapper(input: result.results)
+
+            games.wrappedValue.append(contentsOf: mappedGames)
+            lastID.wrappedValue = mappedGames[mappedGames.count - 1].id
+            isNextable.wrappedValue = result.next != nil
+            downloadState.wrappedValue = .downloaded
+        } catch {
+            downloadState.wrappedValue = .failed
         }
     }
-    
-    
+
 }
 
 extension NetworkService {
@@ -113,7 +119,15 @@ extension NetworkService {
         input gameResponse: [GamesResult]
     ) -> [Game] {
         return gameResponse.map { result in
-            return Game(id: result.id, slug: result.slug, name: result.name, released: result.released, backgroundImage: result.backgroundImage ?? "", rating: result.rating, parentPlatforms: result.parentPlatforms)
+            return Game(
+                id: result.id,
+                slug: result.slug,
+                name: result.name,
+                released: result.released,
+                backgroundImage: result.backgroundImage ?? "",
+                rating: result.rating,
+                parentPlatforms: result.parentPlatforms
+            )
         }
     }
 }

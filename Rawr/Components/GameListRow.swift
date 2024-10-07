@@ -54,7 +54,7 @@ struct GameListRow: View {
                 
                 Spacer()
                 
-                PlatformIcons(platforms: game.parentPlatforms)
+                PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
             }
             .padding(.vertical, 8)
             .frame(maxWidth: .infinity, alignment: .leading)

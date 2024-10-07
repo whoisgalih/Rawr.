@@ -8,38 +8,27 @@
 import SwiftUI
 
 struct GamesListPage: View {
+    @ObservedObject var userModel: UserModel
+    
+    let network: NetworkService = NetworkService()
+
     @State private var games: [Game] = []
     @State private var isNextable: Bool = true
     @State private var lastID: Int = 0
     @State private var page: Int = 1
     @State private var downloadState: DownloadState = .new
-    @State private var displayNavTitle: Bool = false
     
-    init() {
+    init(_ userModel: UserModel) {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.titleTextAttributes = [.font : UIFont(name: "Poppins Medium", size: 18)!]
-    }
-    
-    func appendGame(_ page: Int) async {
-        var gameInPage: [Game] = []
-        print(self.page)
-        let network = NetworkService()
-        do {
-            (gameInPage, isNextable) = try await network.getTrendingGames(page)
-            games.append(contentsOf: gameInPage)
-            lastID = gameInPage[gameInPage.count - 1].id
-            downloadState = .downloaded
-        } catch {
-            print(error)
-            downloadState = .failed
-        }
+        
+        self.userModel = userModel
     }
     
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    
                     if downloadState == .downloaded {
                         ForEach(games) { game in
                             NavigationLink(destination: GameDetailPage(game)) {
@@ -48,7 +37,12 @@ struct GamesListPage: View {
                                         if isNextable && lastID == game.id {
                                             Task {
                                                 self.page += 1
-                                                await appendGame(page)
+                                                await network.appendGame(
+                                                    page, games: $games,
+                                                    isNextable: $isNextable,
+                                                    lastID: $lastID,
+                                                    downloadState: $downloadState
+                                                )
                                             }
                                         }
                                     }
@@ -78,11 +72,33 @@ struct GamesListPage: View {
                 .padding(.horizontal, 16)
                 .task {
                     if downloadState == .new {
-                        await appendGame(page)
+                        await network.appendGame(
+                            page, games: $games,
+                            isNextable: $isNextable,
+                            lastID: $lastID,
+                            downloadState: $downloadState
+                        )
                     }
                 }
             }
             .navigationTitle("Games")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ProfileView(userModel: userModel)
+                    } label: {
+                        Image("galih")
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .frame(width: 28)
+                            .padding(1)
+                    }
+
+                }
+            }
+            
+            
         }
         .accentColor(.textPrimary)
     }
@@ -90,6 +106,32 @@ struct GamesListPage: View {
 
 struct GamesListPage_Previews: PreviewProvider {
     static var previews: some View {
-        GamesListPage()
+        GamesListPage(UserModel())
+    }
+}
+
+
+struct BarContent: View {
+    var body: some View {
+        Button {
+            print("Profile tapped")
+        } label: {
+            ProfilePicture()
+        }
+    }
+}
+
+struct ProfilePicture: View {
+    var body: some View {
+        Circle()
+            .fill(
+                LinearGradient(
+                    gradient: Gradient(colors: [.red, .blue]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .frame(width: 40, height: 40)
+            .padding(.horizontal)
     }
 }
