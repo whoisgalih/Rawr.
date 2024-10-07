@@ -37,6 +37,7 @@
 		F6D8A35C28D7410300AA2919 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D8A35B28D7410300AA2919 /* ContentView.swift */; };
 		F6D8A35E28D7410400AA2919 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6D8A35D28D7410400AA2919 /* Assets.xcassets */; };
 		F6D8A36128D7410400AA2919 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6D8A36028D7410400AA2919 /* Preview Assets.xcassets */; };
+		F6E312C72CB3738B0099A896 /* ParallaxHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E312C62CB3738B0099A896 /* ParallaxHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		F6D8A35B28D7410300AA2919 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F6D8A35D28D7410400AA2919 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6D8A36028D7410400AA2919 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F6E312C62CB3738B0099A896 /* ParallaxHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		F6A1A94928E66ED8005A6116 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F6E312C62CB3738B0099A896 /* ParallaxHeader.swift */,
 				F6A1A94728E668C7005A6116 /* GameOfTheYear.swift */,
 				F6BF05F528EA8DA1007F34EA /* InformationDescription.swift */,
 				F65BDEB528EA5EB000839DBC /* Tag.swift */,
@@ -287,6 +290,7 @@
 				F69BCE9128E511100078D3CA /* Rating.swift in Sources */,
 				F6A1A94628E531EA005A6116 /* RoundedRectangle.swift in Sources */,
 				F6D008B628E1715C002CF8DC /* HomePage.swift in Sources */,
+				F6E312C72CB3738B0099A896 /* ParallaxHeader.swift in Sources */,
 				F6A52BEC28E3D9A50057CF23 /* Category.swift in Sources */,
 				F6A1A94828E668C7005A6116 /* GameOfTheYear.swift in Sources */,
 			);

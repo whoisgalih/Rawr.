@@ -15,7 +15,10 @@ struct GameDetailPage: View {
     @State private var screenshots: [Screenshot]?
     @State private var downloadState: DownloadState = .new
     @State private var isShowingFullDescription: Bool = false
-    @State private var displayNavTitle: Bool = false
+
+    private enum CoordinateSpaces {
+        case scrollView
+    }
     
     init(_ game: Game) {
         self.game = game
@@ -65,37 +68,28 @@ struct GameDetailPage: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                ZStack {
-                    if downloadState == .new {
-                        ProgressView()
-                    }
-                    GeometryReader { geo -> Text in
-                        withAnimation(.easeInOut(duration: 100)) {
-                            displayNavTitle = geo.frame(in: .global).minY < 20
-                        }
-                        return Text("")
-                    }
-
-                    GeometryReader { geometry in
-                        AsyncImage(url: URL(string: "\(game.backgroundImage)")) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: geometry.size.width, height: geometry.frame(in: .global).minY + 404)
-                        .clipped()
-                        .padding(.top, -1 * geometry.frame(in: .global).minY)
-                        .background(Color.regularGray)
-                    }
-                    if downloadState == .failed {
-                        Text("failed")
-                    }
+            ParallaxHeader(
+                coordinateSpace: CoordinateSpaces.scrollView,
+                defaultHeight: 300
+            ) {
+                if downloadState == .new {
+                    ProgressView()
                 }
-                .frame(height: 404)
-                .background(Color.regularGray)
+
+                AsyncImage(url: URL(string: "\(game.backgroundImage)")) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    ProgressView()
+                }
+                
+                if downloadState == .failed {
+                    Text("failed")
+                }
+            }
+            
+            VStack(spacing: 20) {
                 VStack(spacing: 12) {
                     VStack(alignment: .center, spacing: 0) {
                         Text("\(game.name)")
@@ -109,6 +103,8 @@ struct GameDetailPage: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
+                .padding(.top, 16)
+                
                 
                 VStack(spacing: 8) {
                     HStack {
@@ -129,6 +125,7 @@ struct GameDetailPage: View {
                     }
                 }
                 .padding(.horizontal, 16)
+                
                 if let age = gameDetail?.esrbRating?.name {
                     HStack(spacing: 10) {
                         Text("Age Rating:")
@@ -222,13 +219,14 @@ struct GameDetailPage: View {
                 
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .background(Color.white)
         }
-        .ignoresSafeArea(.container, edges: .top)
         .task {
             await getGame(game.id)
             await getScennshots(game.id)
         }
         .navigationTitle("\(game.name)")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

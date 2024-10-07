@@ -39,18 +39,6 @@ struct GamesListPage: View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-//                    GeometryReader { geo -> Text in
-//                        withAnimation(.easeInOut(duration: 100)) {
-//                            displayNavTitle = geo.frame(in: .global).minY < 20
-//                        }
-//                        return Text("")
-//                    }
-                    
-//                    Text("Games")
-//                        .customFont(.largeTitle, .bold)
-//                        .padding(.top, 45)
-                    
-                    
                     
                     if downloadState == .downloaded {
                         ForEach(games) { game in
