@@ -13,6 +13,8 @@ struct GameDetailPage: View {
     let network: NetworkService = NetworkService()
 
     let game: Game
+    let imageData: Data?
+    
     @State private var gameDetail: GameDetail?
     @State private var screenshots: [Screenshot]?
     @State private var downloadState: DownloadState = .new
@@ -22,12 +24,17 @@ struct GameDetailPage: View {
         case scrollView
     }
     
-    init(_ game: Game) {
+    init(_ game: Game, imageData: Data? = nil) {
         self.game = game
+        self.imageData = imageData
     }
     
     func mapMultipleStringWithComa(_ stringsParams: [String]) -> String {
         var strings: [String] = stringsParams
+        
+        if strings.isEmpty {
+            return ""
+        }
 
         if strings.count <= 1 {
             return strings[0]
@@ -55,13 +62,27 @@ struct GameDetailPage: View {
                     ProgressView()
                 }
 
-                AsyncImage(url: URL(string: "\(game.backgroundImage)")) { image in
-                    image
+                if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+                    // Load the image from Core Data if available
+                    Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
-                } placeholder: {
-                    ProgressView()
+                } else if game.backgroundImage != "", let url = URL(string: game.backgroundImage) {
+                    // Load the image from URL if available
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                } else {
+                    // Fallback placeholder image
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFill()
                 }
+                
                 
                 if downloadState == .failed {
                     Text("failed")
@@ -73,7 +94,7 @@ struct GameDetailPage: View {
                     Text("\(game.name)")
                         .customFont(.largeTitle, .bold)
                         .multilineTextAlignment(.center)
-                    if let developers = gameDetail?.developers, developers.count > 0 {
+                    if gameDetail != nil, let developers = gameDetail?.developers, developers.count > 0 {
                         Text("\(mapMultipleStringWithComa(developers.map { $0.name }))")
                             .customFont(.title3)
                     }
@@ -82,6 +103,25 @@ struct GameDetailPage: View {
                 .padding(.horizontal, 16)
 
                 if downloadState == .new && gameDetail == nil {
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Release Date")
+                                .customFont(.caption, .bold)
+                            Spacer()
+                            Text("Rating")
+                                .customFont(.caption, .bold)
+                        }
+                        HStack {
+                            HStack {
+                                Text("\(game.released)")
+                                    .customFont(.subheadline)
+                                    .foregroundColor(.textSecondary)
+                                Spacer()
+                                RatingView(game.rating)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
                     ProgressView()
                 } else {
                     VStack(spacing: 8) {

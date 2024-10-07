@@ -21,10 +21,11 @@ struct FavoritesPage: View {
                     if !favoriteGames.isEmpty {
                         ForEach(favoriteGames, id: \.self) { favoriteGame in
                             if let game = favoriteGame.toGame() {
-                                GameListRow(game, imageData: favoriteGame.backgroundImage)
-                                    .padding(.horizontal, 16)
+                                NavigationLink(destination: GameDetailPage(game, imageData: favoriteGame.backgroundImage)) {
+                                    GameListRow(game, imageData: favoriteGame.backgroundImage)
+                                        .padding(.horizontal, 16)
+                                }
                             }
-                            
                         }
                     } else {
                         Text("No favorites found.")
@@ -36,6 +37,7 @@ struct FavoritesPage: View {
             }
             .navigationTitle("Favorites")
         }
+        .accentColor(.textPrimary)
     }
 }
 
