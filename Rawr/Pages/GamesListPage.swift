@@ -30,7 +30,7 @@ struct GamesListPage: View {
                     if downloadState == .downloaded {
                         ForEach(games) { game in
                             NavigationLink(destination: GameDetailPage(game)) {
-                                GameListRow(game: game)
+                                GameListRow(game)
                                     .onAppear {
                                         if isNextable && lastID == game.id {
                                             Task {

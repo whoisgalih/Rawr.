@@ -21,9 +21,10 @@ struct FavoritesPage: View {
                     if !favoriteGames.isEmpty {
                         ForEach(favoriteGames, id: \.self) { favoriteGame in
                             if let game = favoriteGame.toGame() {
-                                GameListRow(game: game)
+                                GameListRow(game, imageData: favoriteGame.backgroundImage)
                                     .padding(.horizontal, 16)
                             }
+                            
                         }
                     } else {
                         Text("No favorites found.")
@@ -39,29 +40,64 @@ struct FavoritesPage: View {
 }
 
 extension FavoriteGame {
+    @NSManaged public var platforms: [String]
+}
+
+extension FavoriteGame {
     func toGame() -> Game? {
         guard
             let name = name,
             let slug = slug,
-            let released = released,
-            let backgroundImage = backgroundImage
+            let released = released
         else {
             return nil
         }
-
+        
         return Game(
             id: Int(id),
             slug: slug,
             name: name,
             released: released,
-            backgroundImage: backgroundImage,
+            backgroundImage: "",
             rating: rating,
-            parentPlatforms: [] // Assuming this information is not stored in Core Data
+            parentPlatforms: []
         )
     }
 }
 
 
-#Preview {
-    FavoritesPage()
+struct FavoritesPage_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
+        let exampleFavorite = FavoriteGame(context: context)
+        exampleFavorite.id = Int64(exampleGame.id)
+        exampleFavorite.name = exampleGame.name
+        exampleFavorite.slug = exampleGame.slug
+        exampleFavorite.released = exampleGame.released
+        if let url = URL(string: exampleGame.backgroundImage) {
+            downloadImage(from: url) { data in
+                if let imageData = data {
+                    exampleFavorite.backgroundImage = imageData
+
+                    do {
+                        try context.save()
+                        print("Saved game and image to favorites!")
+                    } catch {
+                        print("Failed to save favorite game: \(error)")
+                    }
+                }
+            }
+        } else {
+            do {
+                try context.save()
+                print("Saved game without image to favorites!")
+            } catch {
+                print("Failed to save favorite game: \(error)")
+            }
+        }
+        exampleFavorite.rating = exampleGame.rating
+
+        return FavoritesPage()
+            .environment(\.managedObjectContext, context)
+    }
 }

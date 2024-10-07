@@ -14,14 +14,29 @@ class FavoriteManager {
         favoriteGame.slug = game.slug
         favoriteGame.name = game.name
         favoriteGame.released = game.released
-        favoriteGame.backgroundImage = game.backgroundImage
+//        favoriteGame.backgroundImage = game.backgroundImage
         favoriteGame.rating = game.rating
 
-        do {
-            try context.save()
-            print("Saved game to favorites!")
-        } catch {
-            print("Failed to save favorite game: \(error)")
+        if let url = URL(string: game.backgroundImage) {
+            downloadImage(from: url) { data in
+                if let imageData = data {
+                    favoriteGame.backgroundImage = imageData
+
+                    do {
+                        try context.save()
+                        print("Saved game and image to favorites!")
+                    } catch {
+                        print("Failed to save favorite game: \(error)")
+                    }
+                }
+            }
+        } else {
+            do {
+                try context.save()
+                print("Saved game without image to favorites!")
+            } catch {
+                print("Failed to save favorite game: \(error)")
+            }
         }
     }
     
@@ -54,3 +69,14 @@ class FavoriteManager {
     }
 }
 
+// Helper function to download image from a URL
+func downloadImage(from url: URL, completion: @escaping (Data?) -> Void) {
+    URLSession.shared.dataTask(with: url) { data, response, error in
+        guard let data = data, error == nil else {
+            print("Failed to download image: \(error?.localizedDescription ?? "No error description")")
+            completion(nil)
+            return
+        }
+        completion(data)
+    }.resume()
+}

@@ -44,14 +44,16 @@ struct ProfileView: View {
         .navigationTitle("User Info")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            Button(action: {
-                showEditView = true
-            }, label: {
-                Text("Edit")
-                    .padding(8)
-                    .background(.regularMaterial)
-                    .cornerRadius(8)
-            })
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                    showEditView = true
+                }, label: {
+                    Text("Edit")
+                        .padding(8)
+                        .background(.regularMaterial)
+                        .cornerRadius(8)
+                })
+            }
         }
         .sheet(isPresented: $showEditView) {
             ProfileEditView(userModel: userModel, showEditView: $showEditView)
