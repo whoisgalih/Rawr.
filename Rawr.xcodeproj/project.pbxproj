@@ -11,6 +11,8 @@
 		F60CB25A28F0373F0094C49A /* ScreenshotsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CB25928F0373F0094C49A /* ScreenshotsModel.swift */; };
 		F60CB26328F1117C0094C49A /* GetSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CB26228F1117C0094C49A /* GetSize.swift */; };
 		F65BDEB628EA5EB000839DBC /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65BDEB528EA5EB000839DBC /* Tag.swift */; };
+		F6647C3D2CB4E58000BAEE49 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6647C3C2CB4E58000BAEE49 /* NetworkMonitor.swift */; };
+		F6647C3F2CB4E8D700BAEE49 /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6647C3E2CB4E8D700BAEE49 /* NetworkView.swift */; };
 		F69BCE9128E511100078D3CA /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69BCE9028E511100078D3CA /* Rating.swift */; };
 		F69BCE9828E52B400078D3CA /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F69BCE9728E52B400078D3CA /* Poppins-SemiBoldItalic.ttf */; };
 		F6A1A94C28E66F39005A6116 /* GamesListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A94B28E66F39005A6116 /* GamesListPage.swift */; };
@@ -49,6 +51,8 @@
 		F60CB25928F0373F0094C49A /* ScreenshotsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsModel.swift; sourceTree = "<group>"; };
 		F60CB26228F1117C0094C49A /* GetSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSize.swift; sourceTree = "<group>"; };
 		F65BDEB528EA5EB000839DBC /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		F6647C3C2CB4E58000BAEE49 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		F6647C3E2CB4E8D700BAEE49 /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		F69BCE9028E511100078D3CA /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		F69BCE9728E52B400078D3CA /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		F6A1A94B28E66F39005A6116 /* GamesListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesListPage.swift; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 				F69BCE9028E511100078D3CA /* Rating.swift */,
 				F6BF05FC28ECF1BA007F34EA /* GameListRow.swift */,
 				F6BF05FE28ECFA11007F34EA /* PlatformIcons.swift */,
+				F6647C3E2CB4E8D700BAEE49 /* NetworkView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				F6BF05FA28EBBB77007F34EA /* GamesModel.swift */,
 				F60CB25728F013E40094C49A /* GemeModel.swift */,
 				F60CB25928F0373F0094C49A /* ScreenshotsModel.swift */,
+				F6647C3C2CB4E58000BAEE49 /* NetworkMonitor.swift */,
 			);
 			path = NetworkSource;
 			sourceTree = "<group>";
@@ -348,7 +354,9 @@
 				F6E312D22CB3EFCC0099A896 /* FavoriteManager.swift in Sources */,
 				F6BF05FF28ECFA11007F34EA /* PlatformIcons.swift in Sources */,
 				F6BF05F928EBB482007F34EA /* NetworkService.swift in Sources */,
+				F6647C3F2CB4E8D700BAEE49 /* NetworkView.swift in Sources */,
 				F60CB25A28F0373F0094C49A /* ScreenshotsModel.swift in Sources */,
+				F6647C3D2CB4E58000BAEE49 /* NetworkMonitor.swift in Sources */,
 				F60CB25828F013E40094C49A /* GemeModel.swift in Sources */,
 				F6D8A35C28D7410300AA2919 /* ContentView.swift in Sources */,
 				F6ADFE1E2917B4AD00787C35 /* Rawr.xcdatamodeld in Sources */,

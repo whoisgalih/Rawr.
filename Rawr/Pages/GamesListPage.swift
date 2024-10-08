@@ -23,48 +23,55 @@ struct GamesListPage: View {
         navigationBarAppearance.titleTextAttributes = [.font: UIFont(name: "Poppins Medium", size: 18)!]
     }
 
+    @ObservedObject private var networkMonitor = NetworkMonitor()
+
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if downloadState == .downloaded {
-                        ForEach(games) { game in
-                            NavigationLink(destination: GameDetailPage(game)) {
-                                GameListRow(game)
-                                    .onAppear {
-                                        if isNextable && lastID == game.id {
-                                            Task {
-                                                self.page += 1
-                                                await network.appendGame(
-                                                    page, games: $games,
-                                                    isNextable: $isNextable,
-                                                    lastID: $lastID,
-                                                    downloadState: $downloadState
-                                                )
+                    if networkMonitor.isConnected {
+                        if downloadState == .downloaded {
+                            ForEach(games) { game in
+                                NavigationLink(destination: GameDetailPage(game)) {
+                                    GameListRow(game)
+                                        .onAppear {
+                                            if isNextable && lastID == game.id {
+                                                Task {
+                                                    self.page += 1
+                                                    await network.appendGame(
+                                                        page, games: $games,
+                                                        isNextable: $isNextable,
+                                                        lastID: $lastID,
+                                                        downloadState: $downloadState
+                                                    )
+                                                }
                                             }
                                         }
-                                    }
+                                }
+                                .foregroundColor(.textPrimary)
                             }
-                            .foregroundColor(.textPrimary)
+                        } else if downloadState == .new {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, minHeight: 300)
                         }
-                    } else if downloadState == .new {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 300)
-                    }
 
-                    if isNextable {
-                        if downloadState == .failed {
-                            Text("Failed to get data")
+                        if isNextable {
+                            if downloadState == .failed {
+                                Text("Failed to get data")
+                                    .frame(minWidth: 100, maxWidth: .infinity, alignment: .center)
+                                    .customFont(.caption)
+                            } else if downloadState != .new {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, minHeight: 100)
+                            }
+                        } else if !isNextable && downloadState == .downloaded {
+                            Text("End of data")
                                 .frame(minWidth: 100, maxWidth: .infinity, alignment: .center)
                                 .customFont(.caption)
-                        } else if downloadState != .new {
-                            ProgressView()
-                                .frame(maxWidth: .infinity, minHeight: 100)
+
                         }
-                    } else if !isNextable && downloadState == .downloaded {
-                        Text("End of data")
-                            .frame(minWidth: 100, maxWidth: .infinity, alignment: .center)
-                            .customFont(.caption)
+                    } else {
+                        NetworkView.noConn
                     }
                 }
                 .padding(.horizontal, 16)

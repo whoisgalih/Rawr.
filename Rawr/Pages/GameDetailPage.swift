@@ -85,7 +85,7 @@ struct GameDetailPage: View {
                         .scaledToFill()
                 }
 
-                if downloadState == .failed {
+                if downloadState == .failed && imageData == nil {
                     Text("failed")
                 }
             }
@@ -121,14 +121,17 @@ struct GameDetailPage: View {
                 }
                 .padding(.horizontal, 16)
 
-                if downloadState == .new && gameDetail == nil {
+                if gameDetail == nil {
                     HStack {
                         InformationDescription(title: "Release Date", description: game.released)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
-                    ProgressView()
-                } else {
+                }
+
+                NetworkView()
+
+                if downloadState == .downloaded && gameDetail != nil {
                     if let age = gameDetail?.esrbRating?.name {
                         HStack(spacing: 10) {
                             Text("Age Rating:")

@@ -47,6 +47,7 @@ class NetworkService {
             screenshots.wrappedValue = result.results
             downloadState.wrappedValue = .downloaded
         } catch {
+            screenshots.wrappedValue = nil
             downloadState.wrappedValue = .failed
         }
     }
@@ -71,6 +72,7 @@ class NetworkService {
             gameDetail.wrappedValue = result
             downloadState.wrappedValue = .downloaded
         } catch {
+            gameDetail.wrappedValue = nil
             downloadState.wrappedValue = .failed
         }
     }

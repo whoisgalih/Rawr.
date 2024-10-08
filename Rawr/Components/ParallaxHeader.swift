@@ -57,7 +57,7 @@ struct ParallaxHeader_Previews: PreviewProvider {
     private enum CoordinateSpaces {
         case scrollView
     }
-    
+
     static var previews: some View {
         ScrollView {
             ParallaxHeader(coordinateSpace: CoordinateSpaces.scrollView, defaultHeight: 300) {
@@ -65,7 +65,7 @@ struct ParallaxHeader_Previews: PreviewProvider {
                     .resizable()
                     .scaledToFill()
             }
-            
+
             VStack(spacing: 20) {
                 ForEach(0..<20) { index in
                     Text("Content \(index)")
