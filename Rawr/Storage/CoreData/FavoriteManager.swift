@@ -15,7 +15,7 @@ class FavoriteManager {
         favoriteGame.name = game.name
         favoriteGame.released = game.released
         favoriteGame.rating = game.rating
-        
+
         // Encode parent platforms to JSON
         if let platformsData = try? JSONEncoder().encode(game.platforms) {
             favoriteGame.platforms = platformsData
@@ -44,11 +44,11 @@ class FavoriteManager {
             }
         }
     }
-    
+
     static func removeGameFromFavorites(game: Game, context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<FavoriteGame> = FavoriteGame.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", game.id)
-        
+
         do {
             let favoriteGames = try context.fetch(fetchRequest)
             for favoriteGame in favoriteGames {
@@ -63,7 +63,7 @@ class FavoriteManager {
     static func isGameFavorite(game: Game, context: NSManagedObjectContext) -> Bool {
         let fetchRequest: NSFetchRequest<FavoriteGame> = FavoriteGame.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", game.id)
-        
+
         do {
             let count = try context.count(for: fetchRequest)
             return count > 0
@@ -76,7 +76,7 @@ class FavoriteManager {
 
 // Helper function to download image from a URL
 func downloadImage(from url: URL, completion: @escaping (Data?) -> Void) {
-    URLSession.shared.dataTask(with: url) { data, response, error in
+    URLSession.shared.dataTask(with: url) { data, _, error in
         guard let data = data, error == nil else {
             print("Failed to download image: \(error?.localizedDescription ?? "No error description")")
             completion(nil)
@@ -92,11 +92,11 @@ extension FavoriteGame {
             let name = name,
             let slug = slug,
             let released = released,
-            let platforms = platforms
+            platforms != nil
         else {
             return nil
         }
-        
+
         return Game(
             id: Int(id),
             slug: slug,
@@ -109,13 +109,12 @@ extension FavoriteGame {
     }
 }
 
-
 extension FavoriteGame {
     func getPlatforms() -> [ParentPlatform] {
-        guard let platformsData = self.platforms else {
+        guard self.platforms != nil else {
             return []
         }
-        
+
         do {
             let parentPlatforms = try JSONDecoder().decode([ParentPlatform].self, from: platforms!)
             return parentPlatforms

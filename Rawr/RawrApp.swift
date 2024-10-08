@@ -11,7 +11,7 @@ import SwiftUI
 struct RawrApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject var userModel = UserModel()
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()

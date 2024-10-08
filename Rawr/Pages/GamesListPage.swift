@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GamesListPage: View {
     @EnvironmentObject var userModel: UserModel
-    
+
     let network: NetworkService = NetworkService()
 
     @State private var games: [Game] = []
@@ -17,12 +17,12 @@ struct GamesListPage: View {
     @State private var lastID: Int = 0
     @State private var page: Int = 1
     @State private var downloadState: DownloadState = .new
-    
+
     init() {
         let navigationBarAppearance = UINavigationBar.appearance()
-        navigationBarAppearance.titleTextAttributes = [.font : UIFont(name: "Poppins Medium", size: 18)!]
+        navigationBarAppearance.titleTextAttributes = [.font: UIFont(name: "Poppins Medium", size: 18)!]
     }
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -51,7 +51,7 @@ struct GamesListPage: View {
                         ProgressView()
                             .frame(maxWidth: .infinity, minHeight: 300)
                     }
-                    
+
                     if isNextable {
                         if downloadState == .failed {
                             Text("Failed to get data")

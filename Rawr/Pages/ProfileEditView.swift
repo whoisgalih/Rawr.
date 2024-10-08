@@ -13,7 +13,7 @@ struct ProfileEditView: View {
     @State private var name: String
     @State private var email: String
     @State private var proffesion: String
-    
+
     init(userModel: UserModel, showEditView: Binding<Bool>) {
         self.userModel = userModel
         self.name = userModel.name
@@ -21,7 +21,7 @@ struct ProfileEditView: View {
         self.proffesion = userModel.proffesion
         self._showEditView = showEditView
     }
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -32,7 +32,7 @@ struct ProfileEditView: View {
                     )
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
-                    
+
                     TextField(
                         "Email",
                         text: $email
@@ -40,7 +40,7 @@ struct ProfileEditView: View {
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
-                    
+
                     TextField(
                         "Profession",
                         text: $proffesion
@@ -58,13 +58,13 @@ struct ProfileEditView: View {
                     }
                     .foregroundColor(.red)
                 }
-                
+
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
                         userModel.name = name
                         userModel.email = email
                         userModel.proffesion = proffesion
-                        
+
                         showEditView = false
                     }
                 }

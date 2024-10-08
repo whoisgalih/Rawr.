@@ -7,11 +7,9 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MainTabView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     var body: some View {
         TabView {
             // Explore Page (GamesListPage)

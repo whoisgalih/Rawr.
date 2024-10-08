@@ -10,11 +10,11 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var userModel: UserModel
     @State private var showEditView: Bool = false
-    
+
     private enum CoordinateSpaces {
         case scrollView
     }
-    
+
     var body: some View {
         ScrollView {
             ParallaxHeader(
@@ -25,7 +25,7 @@ struct ProfileView: View {
                     .resizable()
                     .scaledToFill()
             }
-            
+
             VStack(spacing: 12) {
                 Text(userModel.name)
                     .customFont(.largeTitle, .bold)
@@ -39,7 +39,7 @@ struct ProfileView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
-            
+
         }
         .navigationTitle("User Info")
         .navigationBarTitleDisplayMode(.inline)
@@ -58,7 +58,7 @@ struct ProfileView: View {
         .sheet(isPresented: $showEditView) {
             ProfileEditView(userModel: userModel, showEditView: $showEditView)
         }
-        
+
     }
 }
 

@@ -5,7 +5,6 @@
 //  Created by Galih Akbar on 07/10/24.
 //
 
-
 import SwiftUI
 
 struct ParallaxHeader<Content: View, Space: Hashable>: View {
@@ -22,7 +21,7 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         self.coordinateSpace = coordinateSpace
         self.defaultHeight = defaultHeight
     }
-    
+
     var body: some View {
         GeometryReader { proxy in
             let offset = offset(for: proxy)
@@ -38,7 +37,7 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         }
         .frame(height: defaultHeight)
     }
-    
+
     private func offset(for proxy: GeometryProxy) -> CGFloat {
         let frame = proxy.frame(in: .named(coordinateSpace))
         if frame.minY < 0 {
@@ -46,7 +45,7 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         }
         return -frame.minY
     }
-    
+
     private func heightModifier(for proxy: GeometryProxy) -> CGFloat {
         let frame = proxy.frame(in: .named(coordinateSpace))
         return max(0, frame.minY)

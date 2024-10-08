@@ -5,7 +5,6 @@
 //  Created by Galih Akbar on 07/10/24.
 //
 
-
 import SwiftUI
 
 struct ProfilePicture: View {

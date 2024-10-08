@@ -5,7 +5,7 @@
 //  Created by Galih Akbar on 04/10/22.
 //
 
-import CoreData;
+import CoreData
 
 // MARK: - GameResponse
 struct GamesResponse: Codable {
@@ -89,7 +89,7 @@ struct Game: Identifiable {
     let backgroundImage: String
     let rating: Double
     let platforms: [ParentPlatform]
-    
+
     init(
         id: Int,
         slug: String,

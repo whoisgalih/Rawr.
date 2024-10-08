@@ -9,17 +9,17 @@ import SwiftUI
 
 struct GameListRow: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     let game: Game
     let imageData: Data? // Add this parameter to pass the image data if available
-    
+
     init(_ game: Game, imageData: Data? = nil) {
         self.game = game
         self.imageData = imageData
     }
-    
+
     @State private var isFavorite: Bool = false
-    
+
     var body: some View {
         HStack(spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
@@ -51,21 +51,23 @@ struct GameListRow: View {
                         .background(Color.gray)
                 }
 
-                
                 HStack {
                     // Favorite Button
-                    Button(action: {
-                        if isFavorite {
-                            FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
-                        } else {
-                            FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
+                    Button(
+                        action: {
+                            if isFavorite {
+                                FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
+                            } else {
+                                FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
+                            }
+                            isFavorite.toggle()
+                        },
+                        label: {
+                            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                .frame(width: 30)
+                                .foregroundColor(isFavorite ? .red : .gray)
                         }
-                        isFavorite.toggle()
-                    }) {
-                        Image(systemName: isFavorite ? "heart.fill" : "heart")
-                            .frame(width: 30)
-                            .foregroundColor(isFavorite ? .red : .gray)
-                    }
+                    )
                         .padding(4)
                         .background(.regularMaterial)
                         .cornerRadius(8)
@@ -78,12 +80,12 @@ struct GameListRow: View {
                         .cornerRadius(8)
                         .padding(8)
                 }
-                    
+
             }
             .frame(width: 140, height: 180)
             .background(Color.regularGray)
             .cornerRadius(16)
-            
+
             VStack(alignment: .leading, spacing: 8) {
                 Text("\(game.name)")
                     .customFont(.title2, .bold)
@@ -97,9 +99,9 @@ struct GameListRow: View {
                         RoundedRectangle(cornerRadius: 4)
                             .foregroundColor(.textPrimary)
                     }
-                
+
                 Spacer()
-                
+
                 PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
             }
             .padding(.vertical, 8)

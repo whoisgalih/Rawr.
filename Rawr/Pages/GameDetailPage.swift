@@ -14,7 +14,7 @@ struct GameDetailPage: View {
 
     let game: Game
     let imageData: Data?
-    
+
     @State private var gameDetail: GameDetail?
     @State private var screenshots: [Screenshot]?
     @State private var downloadState: DownloadState = .new
@@ -23,15 +23,15 @@ struct GameDetailPage: View {
     private enum CoordinateSpaces {
         case scrollView
     }
-    
+
     init(_ game: Game, imageData: Data? = nil) {
         self.game = game
         self.imageData = imageData
     }
-    
+
     func mapMultipleStringWithComa(_ stringsParams: [String]) -> String {
         var strings: [String] = stringsParams
-        
+
         if strings.isEmpty {
             return ""
         }
@@ -51,7 +51,7 @@ struct GameDetailPage: View {
             return stringResult
         }
     }
-    
+
     var body: some View {
         ScrollView {
             ParallaxHeader(
@@ -82,13 +82,12 @@ struct GameDetailPage: View {
                         .resizable()
                         .scaledToFill()
                 }
-                
-                
+
                 if downloadState == .failed {
                     Text("failed")
                 }
             }
-            
+
             VStack(spacing: 20) {
                 VStack(alignment: .center, spacing: 0) {
                     Text("\(game.name)")
@@ -101,7 +100,7 @@ struct GameDetailPage: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
-                
+
                 VStack(spacing: 8) {
                     HStack {
                         Text("Platform")
@@ -121,7 +120,7 @@ struct GameDetailPage: View {
                 .padding(.horizontal, 16)
 
                 if downloadState == .new && gameDetail == nil {
-                    HStack() {
+                    HStack {
                         InformationDescription(title: "Release Date", description: game.released)
                         Spacer()
                     }

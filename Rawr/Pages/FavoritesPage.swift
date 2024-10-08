@@ -21,7 +21,12 @@ struct FavoritesPage: View {
                     if !favoriteGames.isEmpty {
                         ForEach(favoriteGames, id: \.self) { favoriteGame in
                             if let game = favoriteGame.toGame() {
-                                NavigationLink(destination: GameDetailPage(game, imageData: favoriteGame.backgroundImage)) {
+                                NavigationLink(
+                                    destination: GameDetailPage(
+                                        game,
+                                        imageData: favoriteGame.backgroundImage
+                                    )
+                                ) {
                                     GameListRow(game, imageData: favoriteGame.backgroundImage)
                                         .padding(.horizontal, 16)
                                 }
