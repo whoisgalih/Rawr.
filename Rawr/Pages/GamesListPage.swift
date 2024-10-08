@@ -87,9 +87,8 @@ struct GamesListPage: View {
 
 struct GamesListPage_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
         GamesListPage()
-            .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .environmentObject(UserModel())
     }
 }

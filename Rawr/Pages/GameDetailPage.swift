@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameDetailPage: View {
     @Environment(\.openURL) private var openURL
+    @Environment(\.managedObjectContext) private var viewContext
 
     let network: NetworkService = NetworkService()
 
@@ -19,6 +20,7 @@ struct GameDetailPage: View {
     @State private var screenshots: [Screenshot]?
     @State private var downloadState: DownloadState = .new
     @State private var isShowingFullDescription: Bool = false
+    @State private var isFavorite: Bool = false
 
     private enum CoordinateSpaces {
         case scrollView
@@ -236,11 +238,35 @@ struct GameDetailPage: View {
         }
         .navigationTitle("\(game.name)")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(
+                    action: {
+                        if isFavorite {
+                            FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
+                        } else {
+                            FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
+                        }
+                        isFavorite.toggle()
+                    },
+                    label: {
+                        Image(systemName: isFavorite ? "heart.fill" : "heart")
+                            .frame(width: 30)
+                            .foregroundColor(isFavorite ? .red : .gray)
+                    }
+                )
+            }
+        }
+        .onAppear {
+            isFavorite = FavoriteManager.isGameFavorite(game: game, context: viewContext)
+        }
     }
 }
 
 struct GameDetailPage_Previews: PreviewProvider {
     static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
         GameDetailPage(exampleGame)
+            .environment(\.managedObjectContext, context)
     }
 }

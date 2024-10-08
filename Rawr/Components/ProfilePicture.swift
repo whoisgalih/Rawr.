@@ -21,3 +21,7 @@ struct ProfilePicture: View {
             .padding(.horizontal)
     }
 }
+
+#Preview {
+    ProfilePicture()
+}

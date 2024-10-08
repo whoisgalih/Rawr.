@@ -51,3 +51,32 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         return max(0, frame.minY)
     }
 }
+
+// MARK: - Preview
+struct ParallaxHeader_Previews: PreviewProvider {
+    private enum CoordinateSpaces {
+        case scrollView
+    }
+    
+    static var previews: some View {
+        ScrollView {
+            ParallaxHeader(coordinateSpace: CoordinateSpaces.scrollView, defaultHeight: 300) {
+                Image(.example)
+                    .resizable()
+                    .scaledToFill()
+            }
+            
+            VStack(spacing: 20) {
+                ForEach(0..<20) { index in
+                    Text("Content \(index)")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
+                }
+            }
+            .padding()
+            .background(Color.white)
+        }
+    }
+}

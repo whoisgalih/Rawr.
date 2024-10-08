@@ -48,36 +48,7 @@ struct FavoritesPage: View {
 
 struct FavoritesPage_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
-        let exampleFavorite = FavoriteGame(context: context)
-        exampleFavorite.id = Int64(exampleGame.id)
-        exampleFavorite.name = exampleGame.name
-        exampleFavorite.slug = exampleGame.slug
-        exampleFavorite.released = exampleGame.released
-        if let url = URL(string: exampleGame.backgroundImage) {
-            downloadImage(from: url) { data in
-                if let imageData = data {
-                    exampleFavorite.backgroundImage = imageData
-
-                    do {
-                        try context.save()
-                        print("Saved game and image to favorites!")
-                    } catch {
-                        print("Failed to save favorite game: \(error)")
-                    }
-                }
-            }
-        } else {
-            do {
-                try context.save()
-                print("Saved game without image to favorites!")
-            } catch {
-                print("Failed to save favorite game: \(error)")
-            }
-        }
-        exampleFavorite.rating = exampleGame.rating
-
         return FavoritesPage()
-            .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
