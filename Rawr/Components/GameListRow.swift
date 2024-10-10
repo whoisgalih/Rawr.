@@ -63,9 +63,7 @@ struct GameListRow: View {
                             isFavorite.toggle()
                         },
                         label: {
-                            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                .frame(width: 30)
-                                .foregroundColor(isFavorite ? .red : .gray)
+                            Image(systemName: isFavorite ? "heart.fill" : "heart") .foregroundColor(isFavorite ? .red : .gray)
                         }
                     )
                         .padding(4)

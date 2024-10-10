@@ -127,9 +127,9 @@ struct GameDetailPage: View {
                         Spacer()
                     }
                     .padding(.horizontal, 16)
-                }
 
-                NetworkView()
+                    NetworkView()
+                }
 
                 if downloadState == .downloaded && gameDetail != nil {
                     if let age = gameDetail?.esrbRating?.name {
