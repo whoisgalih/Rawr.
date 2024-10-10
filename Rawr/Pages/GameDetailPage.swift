@@ -201,14 +201,16 @@ struct GameDetailPage: View {
                         Text("Information")
                             .customFont(.headline)
                         if let gameDetail: GameDetail = gameDetail {
-                            HStack {
-                                Text("Website")
-                                    .customFont(.subheadline, .bold)
-                                Spacer()
-                                Image(systemName: "safari")
-                            }
-                            .onTapGesture {
-                                openURL(URL(string: "\(gameDetail.website)")!)
+                            if let url: URL = URL(string: "\(gameDetail.website)") {
+                                HStack {
+                                    Text("Website")
+                                        .customFont(.subheadline, .bold)
+                                    Spacer()
+                                    Image(systemName: "safari")
+                                }
+                                .onTapGesture {
+                                    openURL(url)
+                                }
                             }
                             InformationDescription(
                                 title: "Platform",
