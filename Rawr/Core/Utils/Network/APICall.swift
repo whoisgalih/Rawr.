@@ -23,10 +23,12 @@ enum Endpoints {
 
     enum Gets: Endpoint {
         case list
+        case detail
 
         public var url: String {
             switch self {
             case .list: return "\(API.baseUrl)lists/main"
+            case .detail: return "\(API.baseUrl)"
             }
         }
     }

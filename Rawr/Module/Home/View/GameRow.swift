@@ -91,9 +91,9 @@ struct GameRow: View {
                             .foregroundColor(.textPrimary)
                     }
 
-//                Spacer()
-//
-//                PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
+                Spacer()
+
+                PlatformIcons(platforms: game.platforms.map { $0.slug })
             }
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .leading)

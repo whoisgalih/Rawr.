@@ -14,6 +14,8 @@ class DetailPresenter: ObservableObject {
     private let detailUseCase: DetailUseCase
 
     @Published var game: GameModel
+    @Published var gameDetail: GameDetailModel?
+    @Published var screenshots: [ScreenshotModel] = []
     @Published var errorMessage: String = ""
     @Published var isLoading: Bool = false
     @Published var isError: Bool = false
@@ -22,4 +24,43 @@ class DetailPresenter: ObservableObject {
         self.detailUseCase = detailUseCase
         game = detailUseCase.getGame()
     }
+
+    func getGameDetail() {
+      isLoading = true
+      detailUseCase.getGameDetail()
+        .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { completion in
+          switch completion {
+          case .failure(let error):
+            self.errorMessage = error.localizedDescription
+            self.isError = true
+            self.isLoading = false
+          case .finished:
+            self.isLoading = false
+          }
+        }, receiveValue: { gameDetail in
+          self.gameDetail = gameDetail
+        })
+        .store(in: &cancellables)
+    }
+    
+    func getScreenshots() {
+      isLoading = true
+      detailUseCase.getGameDetail()
+        .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { completion in
+          switch completion {
+          case .failure(let error):
+            self.errorMessage = error.localizedDescription
+            self.isError = true
+            self.isLoading = false
+          case .finished:
+            self.isLoading = false
+          }
+        }, receiveValue: { gameDetail in
+          self.gameDetail = gameDetail
+        })
+        .store(in: &cancellables)
+    }
+    
 }

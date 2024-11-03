@@ -74,7 +74,7 @@ extension HomeView {
 }
 
 #Preview {
-    let homeUseCase: HomeUseCase = Injection.init().provideHome()
+    let homeUseCase: HomeUseCase = Injection.init(true).provideHome()
     let homePresenter: HomePresenter = HomePresenter(homeUseCase: homeUseCase)
     HomeView(presenter: homePresenter)
 }

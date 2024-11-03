@@ -1,18 +1,19 @@
 //
-//  ScreenshotsModel.swift
+//  ScreenshotResponse.swift
 //  Rawr
 //
-//  Created by Galih Akbar on 07/10/22.
+//  Created by Galih Akbar on 03/11/24.
 //
 
+
 // MARK: - Welcome
-//struct ScreenshotResponse: Codable {
-//    let count: Int
-//    let results: [Screenshot]
-//}
+struct ScreenshotsResponse: Codable {
+    let count: Int
+    let results: [Screenshot]
+}
 
 // MARK: - Result
-struct Screenshot: Codable, Identifiable {
+struct ScreenshotResponse: Codable, Identifiable {
     let id: Int
     let image: String
     let width, height: Int

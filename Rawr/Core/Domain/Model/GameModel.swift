@@ -14,6 +14,13 @@ struct GameModel: Equatable, Identifiable {
     let slug, name, released: String
     let backgroundImage: String
     let rating: Double
+    let platforms: [ParentPlatformModel]
+}
+
+// MARK: - ParentPlatform
+struct ParentPlatformModel: Codable, Equatable {
+    let id: Int
+    let name, slug: String
 }
 
 let exampleGameModel: GameModel = GameModel(
@@ -22,11 +29,11 @@ let exampleGameModel: GameModel = GameModel(
     name: "Fall Guys",
     released: "2022-12-31",
     backgroundImage: "https://media.rawg.io/media/games/5eb/5eb49eb2fa0738fdb5bacea557b1bc57.jpg",
-    rating: 3.76
-//    parentPlatforms: [
-//        ParentPlatform(platform: EsrbRating(id: 1, name: "PC", slug: "pc")),
-//        ParentPlatform(platform: EsrbRating(id: 2, name: "PlayStation", slug: "playstation")),
-//        ParentPlatform(platform: EsrbRating(id: 3, name: "Xbox", slug: "xbox")),
-//        ParentPlatform(platform: EsrbRating(id: 7, name: "Nintendo", slug: "nintendo"))
-//    ]
+    rating: 3.76,
+    platforms: [
+        ParentPlatformModel(id: 1, name: "PC", slug: "pc"),
+        ParentPlatformModel(id: 2, name: "PlayStation", slug: "playstation"),
+        ParentPlatformModel(id: 3, name: "Xbox", slug: "xbox"),
+        ParentPlatformModel(id: 7, name: "Nintendo", slug: "nintendo")
+    ]
 )

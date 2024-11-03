@@ -12,6 +12,7 @@ import Combine
 protocol RemoteDataSourceProtocol: AnyObject {
 
     func getGames() -> AnyPublisher<[GameResponse], Error>
+    func getGameDetail(by id: Int) -> AnyPublisher<GameDetailResponse, Error>
 
 }
 
@@ -54,6 +55,29 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
                         switch response.result {
                         case .success(let value):
                             completion(.success(value.results))
+                        case .failure:
+                            completion(.failure(URLError.invalidResponse))
+                        }
+                    }
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    func getGameDetail(
+        by id: Int
+    ) -> AnyPublisher<GameDetailResponse, Error> {
+        return Future<GameDetailResponse, Error> { completion in
+            if let url = URL(string: Endpoints.Gets.detail.url + String(id)) {
+                let parameters: [String: String] = [
+                    "key": self.apiKey
+                ]
+
+                AF.request(url, parameters: parameters)
+                    .validate()
+                    .responseDecodable(of: GameDetailResponse.self) { response in
+                        switch response.result {
+                        case .success(let value):
+                            completion(.success(value))
                         case .failure:
                             completion(.failure(URLError.invalidResponse))
                         }

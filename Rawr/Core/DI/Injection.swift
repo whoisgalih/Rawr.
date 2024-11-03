@@ -10,8 +10,22 @@ import RealmSwift
 
 final class Injection: NSObject {
 
+    private final var inMemory: Bool
+
+    init(_ inMemory: Bool = false) {
+        self.inMemory = inMemory
+    }
+
     private func provideRepository() -> GameRepositoryProtocol {
-        let realm = try? Realm()
+        let configuration: Realm.Configuration
+        if inMemory {
+            // Using an in-memory identifier so that data won't persist between previews
+            configuration = Realm.Configuration(inMemoryIdentifier: "PreviewInMemoryRealm")
+        } else {
+            configuration = Realm.Configuration.defaultConfiguration
+        }
+
+        let realm = try? Realm(configuration: configuration)
 
         let locale: LocaleDataSource = LocaleDataSource.sharedInstance(realm)
         let remote: RemoteDataSource = RemoteDataSource.sharedInstance
@@ -29,19 +43,19 @@ final class Injection: NSObject {
         return DetailInteractor(repository: repository, game: game)
     }
 
-//    func provideMeal(meal: MealModel) -> MealUseCase {
-//        let repository = provideRepository()
-//        return MealInteractor(repository: repository, meal: meal)
-//    }
-//    
-//    func provideFavorite() -> FavoriteUseCase {
-//        let repository = provideRepository()
-//        return FavoriteInteractor(repository: repository)
-//    }
-//    
-//    func provideSearch() -> SearchUseCase {
-//        let repository = provideRepository()
-//        return SearchInteractor(repository: repository)
-//    }
+    //    func provideMeal(meal: MealModel) -> MealUseCase {
+    //        let repository = provideRepository()
+    //        return MealInteractor(repository: repository, meal: meal)
+    //    }
+    //    
+    //    func provideFavorite() -> FavoriteUseCase {
+    //        let repository = provideRepository()
+    //        return FavoriteInteractor(repository: repository)
+    //    }
+    //    
+    //    func provideSearch() -> SearchUseCase {
+    //        let repository = provideRepository()
+    //        return SearchInteractor(repository: repository)
+    //    }
 
 }

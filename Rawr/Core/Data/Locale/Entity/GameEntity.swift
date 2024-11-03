@@ -16,6 +16,19 @@ class GameEntity: Object {
     @objc dynamic var backgroundImage = ""
     @objc dynamic var rating: Double = 0.0
 
+    var platforms = List<ParentPlatformEntity>()
+
+    override static func primaryKey() -> String? {
+      return "id"
+    }
+}
+
+// MARK: - ParentPlatform
+class ParentPlatformEntity: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name = ""
+    @objc dynamic var slug = ""
+
     override static func primaryKey() -> String? {
       return "id"
     }

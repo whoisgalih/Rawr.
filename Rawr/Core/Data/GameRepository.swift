@@ -10,6 +10,7 @@ import Combine
 
 protocol GameRepositoryProtocol {
     func getGames() -> AnyPublisher<[GameModel], Error>
+    func getGameDetail(by idGame: Int) -> AnyPublisher<GameDetailModel, Error>
 }
 
 final class GameRepository: NSObject {
@@ -31,6 +32,7 @@ final class GameRepository: NSObject {
 }
 
 extension GameRepository: GameRepositoryProtocol {
+
     func getGames() -> AnyPublisher<[GameModel], Error> {
         return self.locale.getGames()
             .flatMap { result -> AnyPublisher<[GameModel], Error> in
@@ -47,6 +49,27 @@ extension GameRepository: GameRepositoryProtocol {
                 } else {
                     return self.locale.getGames()
                         .map { GameMapper.mapGameEntitiesToDomains(input: $0) }
+                        .eraseToAnyPublisher()
+                }
+            }.eraseToAnyPublisher()
+    }
+
+    func getGameDetail(
+        by idGame: Int
+    ) -> AnyPublisher<GameDetailModel, Error> {
+        return self.locale.getGameDetail(by: idGame)
+            .flatMap { result -> AnyPublisher<GameDetailModel, Error> in
+                if result == nil {
+                    return self.remote.getGameDetail(by: idGame)
+                        .map { GameDetailMapper.mapGameDetailResponseToEntity(by: idGame, input: $0) }
+                        .flatMap { self.locale.addGameDetail(gameDetail: $0) }
+                        .filter { $0 }
+                        .flatMap { _ in self.locale.getGameDetail(by: idGame)
+                                .map { GameDetailMapper.mapGameDetailEntityToDomain(input: $0!) }
+                        }.eraseToAnyPublisher()
+                } else {
+                    return self.locale.getGameDetail(by: idGame)
+                        .map { GameDetailMapper.mapGameDetailEntityToDomain(input: $0!) }
                         .eraseToAnyPublisher()
                 }
             }.eraseToAnyPublisher()

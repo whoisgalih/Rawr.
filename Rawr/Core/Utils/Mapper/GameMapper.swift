@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 final class GameMapper {
 
@@ -20,6 +21,17 @@ final class GameMapper {
             newGame.released = result.released
             newGame.backgroundImage = result.backgroundImage ?? "Unknown"
             newGame.rating = result.rating
+
+            newGame.platforms = List<ParentPlatformEntity>()
+            result.parentPlatforms.forEach { platform in
+                let newParentPlatform = ParentPlatformEntity()
+                newParentPlatform.id = platform.platform.id
+                newParentPlatform.name = platform.platform.name
+                newParentPlatform.slug = platform.platform.slug
+
+                newGame.platforms.append(newParentPlatform)
+            }
+
             return newGame
         }
     }
@@ -34,7 +46,14 @@ final class GameMapper {
                 name: result.name,
                 released: result.released,
                 backgroundImage: result.backgroundImage,
-                rating: result.rating
+                rating: result.rating,
+                platforms: result.platforms.map { platform in
+                    ParentPlatformModel(
+                        id: platform.id,
+                        name: platform.name,
+                        slug: platform.slug
+                    )
+                }
             )
         }
     }
@@ -50,7 +69,14 @@ final class GameMapper {
                 name: result.name,
                 released: result.released,
                 backgroundImage: result.backgroundImage ?? "Unknown",
-                rating: result.rating
+                rating: result.rating,
+                platforms: result.parentPlatforms.map { response in
+                    ParentPlatformModel(
+                        id: response.platform.id,
+                        name: response.platform.name,
+                        slug: response.platform.slug
+                    )
+                }
             )
         }
     }
