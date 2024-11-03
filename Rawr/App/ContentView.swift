@@ -10,11 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var homePresenter: HomePresenter
     @EnvironmentObject var favoritePresenter: FavoritePresenter
-//    @EnvironmentObject var profilePresenter: ProfilePresenter
 
     var body: some View {
         TabView {
-            // Home Tab
+            // MARK: - Home Tab
             NavigationView {
                 HomeView(presenter: homePresenter)
             }
@@ -23,7 +22,7 @@ struct ContentView: View {
                 Text("Games")
             }
 
-            // Favorites Tab
+            // MARK: - Favorites Tab
             NavigationView {
                 FavoriteView(presenter: favoritePresenter)
             }
@@ -32,14 +31,14 @@ struct ContentView: View {
                 Text("Favorites")
             }
 
-            // Profile Tab
-//            NavigationView {
-//                ProfileView(presenter: profilePresenter)
-//            }
-//            .tabItem {
-//                Image(systemName: "person.circle")
-//                Text("Profile")
-//            }
+            // MARK: - Profile Tab
+            NavigationView {
+                ProfileView()
+            }
+            .tabItem {
+                Image(systemName: "person.circle")
+                Text("Profile")
+            }
         }
     }
 }

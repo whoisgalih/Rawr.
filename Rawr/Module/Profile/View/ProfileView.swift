@@ -2,7 +2,7 @@
 //  ProfileView.swift
 //  Rawr
 //
-//  Created by Galih Akbar on 09/10/22.
+//  Created by Galih Akbar on 03/11/24.
 //
 
 import SwiftUI
@@ -58,13 +58,10 @@ struct ProfileView: View {
         .sheet(isPresented: $showEditView) {
             ProfileEditView(userModel: userModel, showEditView: $showEditView)
         }
-
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-            .environmentObject(UserModel())
-    }
+#Preview {
+    ProfileView()
+        .environmentObject(UserModel())
 }

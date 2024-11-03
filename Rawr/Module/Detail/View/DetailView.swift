@@ -13,10 +13,8 @@ enum CoordinateSpaces {
 }
 
 struct DetailView: View {
-    @Environment(\.openURL) private var openURL
     @ObservedObject var presenter: DetailPresenter
 
-//    @State private var isFavorite: Bool = false
     @State private var isShowingFullDescription: Bool = false
 
     var body: some View {
@@ -68,7 +66,7 @@ struct DetailView: View {
                 Button(
                     action: {
                         presenter.updateFavoriteGame()
-//                        isFavorite.toggle()
+                        //                        isFavorite.toggle()
                     },
                     label: {
                         Image(systemName: presenter.game.favorite ? "heart.fill" : "heart")
@@ -94,29 +92,6 @@ extension DetailView {
             image: "assetSearchNotFound",
             title: presenter.errorMessage
         ).offset(y: 80)
-    }
-
-    func mapMultipleStringWithComa(_ stringsParams: [String]) -> String {
-        var strings: [String] = stringsParams
-
-        if strings.isEmpty {
-            return ""
-        }
-
-        if strings.count <= 1 {
-            return strings[0]
-        } else {
-            let lastStr: String = strings.removeLast()
-            var stringResult: String = strings.removeFirst()
-
-            for str in strings {
-                stringResult += ", \(str)"
-            }
-
-            stringResult += ", and \(lastStr)"
-
-            return stringResult
-        }
     }
 
     var header: some View {
@@ -304,6 +279,37 @@ extension DetailView {
             )
         }
     }
+}
+
+extension DetailView {
+
+    func mapMultipleStringWithComa(_ stringsParams: [String]) -> String {
+        var strings: [String] = stringsParams
+
+        if strings.isEmpty {
+            return ""
+        }
+
+        if strings.count <= 1 {
+            return strings[0]
+        } else {
+            let lastStr: String = strings.removeLast()
+            var stringResult: String = strings.removeFirst()
+
+            for str in strings {
+                stringResult += ", \(str)"
+            }
+
+            stringResult += ", and \(lastStr)"
+
+            return stringResult
+        }
+    }
+
+    func openURL(_ url: URL) {
+        UIApplication.shared.open(url)
+    }
+
 }
 
 #Preview {

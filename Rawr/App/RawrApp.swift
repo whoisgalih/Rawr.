@@ -18,7 +18,7 @@ struct RawrApp: App {
             ContentView()
                 .environmentObject(homePresenter)
                 .environmentObject(favoritePresenter)
-//                .environmentObject(userProfilePresenter)
+                .environmentObject(UserModel())
         }
     }
 }

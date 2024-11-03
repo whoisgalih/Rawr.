@@ -42,7 +42,6 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
             if let realm = self.realm {
                 let games: Results<GameEntity> = {
                     realm.objects(GameEntity.self)
-                        .sorted(byKeyPath: "name", ascending: true)
                 }()
                 completion(.success(games.toArray(ofType: GameEntity.self)))
             } else {
@@ -154,7 +153,6 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
           let gameEntities = {
             realm.objects(GameEntity.self)
               .filter("favorite = \(true)")
-              .sorted(byKeyPath: "name", ascending: true)
           }()
           completion(.success(gameEntities.toArray(ofType: GameEntity.self)))
         } else {

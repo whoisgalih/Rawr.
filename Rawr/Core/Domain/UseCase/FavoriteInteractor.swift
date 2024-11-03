@@ -1,5 +1,5 @@
 //
-//  FavoriteUseCase.swift
+//  FavoriteInteractor.swift
 //  Rawr
 //
 //  Created by Galih Akbar on 03/11/24.
