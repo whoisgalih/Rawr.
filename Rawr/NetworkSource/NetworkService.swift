@@ -35,17 +35,17 @@ class NetworkService {
         let request = URLRequest(url: components.url!)
 
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-
-            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-                fatalError("Error: Can't fetching data.")
-            }
-
-            let decoder = JSONDecoder()
-            let result = try decoder.decode(ScreenshotResponse.self, from: data)
-
-            screenshots.wrappedValue = result.results
-            downloadState.wrappedValue = .downloaded
+//            let (data, response) = try await URLSession.shared.data(for: request)
+//
+//            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+//                fatalError("Error: Can't fetching data.")
+//            }
+//
+//            let decoder = JSONDecoder()
+//            let result = try decoder.decode(ScreenshotResponse.self, from: data)
+//
+//            screenshots.wrappedValue = result.results
+//            downloadState.wrappedValue = .downloaded
         } catch {
             screenshots.wrappedValue = nil
             downloadState.wrappedValue = .failed

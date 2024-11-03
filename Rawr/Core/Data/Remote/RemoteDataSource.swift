@@ -86,4 +86,27 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
         }.eraseToAnyPublisher()
     }
 
+    func getScreenshots(
+        by id: Int
+    ) -> AnyPublisher<[ScreenshotResponse], Error> {
+        return Future<[ScreenshotResponse], Error> { completion in
+            if let url = URL(string: Endpoints.Gets.detail.url + String(id) + "/screenshots") {
+                let parameters: [String: String] = [
+                    "key": self.apiKey
+                ]
+
+                AF.request(url, parameters: parameters)
+                    .validate()
+                    .responseDecodable(of: ScreenshotsResponse.self) { response in
+                        switch response.result {
+                        case .success(let value):
+                            completion(.success(value.results))
+                        case .failure:
+                            completion(.failure(URLError.invalidResponse))
+                        }
+                    }
+            }
+        }.eraseToAnyPublisher()
+    }
+
 }

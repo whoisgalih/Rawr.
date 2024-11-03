@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var homePresenter: HomePresenter
-//    @EnvironmentObject var favoritePresenter: FavoritePresenter
+    @EnvironmentObject var favoritePresenter: FavoritePresenter
 //    @EnvironmentObject var profilePresenter: ProfilePresenter
 
     var body: some View {
@@ -23,16 +23,16 @@ struct ContentView: View {
                 Text("Games")
             }
 
-//            // Favorites Tab
-//            NavigationView {
-//                FavoritesView(presenter: favoritePresenter)
-//            }
-//            .tabItem {
-//                Image(systemName: "heart.fill")
-//                Text("Favorites")
-//            }
-//
-//            // Profile Tab
+            // Favorites Tab
+            NavigationView {
+                FavoriteView(presenter: favoritePresenter)
+            }
+            .tabItem {
+                Image(systemName: "heart.fill")
+                Text("Favorites")
+            }
+
+            // Profile Tab
 //            NavigationView {
 //                ProfileView(presenter: profilePresenter)
 //            }
@@ -46,8 +46,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let homeUseCase: HomeUseCase = Injection.init(true).provideHome()
+        let homePresenter: HomePresenter = HomePresenter(homeUseCase: homeUseCase)
+        let favoriteUseCase: FavoriteUseCase = Injection.init(true).provideFavorite()
+        let favoritePresenter: FavoritePresenter = FavoritePresenter(favoriteUseCase: favoriteUseCase)
         ContentView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-            .environmentObject(UserModel())
+            .environmentObject(homePresenter)
+            .environmentObject(favoritePresenter)
     }
 }

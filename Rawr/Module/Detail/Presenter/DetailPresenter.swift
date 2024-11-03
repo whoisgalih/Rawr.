@@ -43,10 +43,10 @@ class DetailPresenter: ObservableObject {
         })
         .store(in: &cancellables)
     }
-    
+
     func getScreenshots() {
       isLoading = true
-      detailUseCase.getGameDetail()
+        detailUseCase.getScreenshots()
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
           switch completion {
@@ -57,10 +57,25 @@ class DetailPresenter: ObservableObject {
           case .finished:
             self.isLoading = false
           }
-        }, receiveValue: { gameDetail in
-          self.gameDetail = gameDetail
+        }, receiveValue: { screenshots in
+          self.screenshots = screenshots
         })
         .store(in: &cancellables)
     }
-    
+
+    func updateFavoriteGame() {
+        detailUseCase.updateFavoriteGame()
+        .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .failure:
+              self.errorMessage = String(describing: completion)
+            case .finished:
+              self.isLoading = false
+            }
+          }, receiveValue: { game in
+            self.game = game
+          })
+          .store(in: &cancellables)
+    }
 }

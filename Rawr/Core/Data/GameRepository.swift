@@ -1,5 +1,5 @@
 //
-//  MealRepository.swift
+//  GameRepository.swift
 //  Rawr
 //
 //  Created by Galih Akbar on 02/11/24.
@@ -11,6 +11,11 @@ import Combine
 protocol GameRepositoryProtocol {
     func getGames() -> AnyPublisher<[GameModel], Error>
     func getGameDetail(by idGame: Int) -> AnyPublisher<GameDetailModel, Error>
+
+    func getScreenshots(by idGame: Int) -> AnyPublisher<[ScreenshotModel], Error>
+
+    func getFavoriteGames() -> AnyPublisher<[GameModel], Error>
+    func updateFavoriteGame(by idGame: Int) -> AnyPublisher<GameModel, Error>
 }
 
 final class GameRepository: NSObject {
@@ -62,6 +67,7 @@ extension GameRepository: GameRepositoryProtocol {
                 if result == nil {
                     return self.remote.getGameDetail(by: idGame)
                         .map { GameDetailMapper.mapGameDetailResponseToEntity(by: idGame, input: $0) }
+                    //                        .catch { _ in self.locale.getGameDetail(by: idGame) }
                         .flatMap { self.locale.addGameDetail(gameDetail: $0) }
                         .filter { $0 }
                         .flatMap { _ in self.locale.getGameDetail(by: idGame)
@@ -73,5 +79,42 @@ extension GameRepository: GameRepositoryProtocol {
                         .eraseToAnyPublisher()
                 }
             }.eraseToAnyPublisher()
+    }
+
+    func getScreenshots(
+        by idGame: Int
+    ) -> AnyPublisher<[ScreenshotModel], Error> {
+        return self.locale.getScreenshots()
+            .flatMap { result -> AnyPublisher<[ScreenshotModel], Error> in
+                if result.isEmpty {
+                    return self.remote.getScreenshots(by: idGame)
+                        .map { ScreenshotMapper.mapScreenshotResponsesToEntities(input: $0) }
+                        .catch { _ in self.locale.getScreenshots() }
+                        .flatMap { self.locale.addScreenshots(from: $0) }
+                        .filter { $0 }
+                        .flatMap { _ in self.locale.getScreenshots()
+                                .map { ScreenshotMapper.mapScreenshotEntitiesToDomains(input: $0) }
+                        }
+                        .eraseToAnyPublisher()
+                } else {
+                    return self.locale.getScreenshots()
+                        .map { ScreenshotMapper.mapScreenshotEntitiesToDomains(input: $0) }
+                        .eraseToAnyPublisher()
+                }
+            }.eraseToAnyPublisher()
+    }
+
+    func getFavoriteGames() -> AnyPublisher<[GameModel], Error> {
+        return self.locale.getFavoriteGames()
+            .map { GameMapper.mapGameEntitiesToDomains(input: $0) }
+            .eraseToAnyPublisher()
+    }
+
+    func updateFavoriteGame(
+        by idGame: Int
+    ) -> AnyPublisher<GameModel, Error> {
+        return self.locale.updateFavoriteGame(by: idGame)
+            .map { GameMapper.mapGameEntityToDomain(input: $0) }
+            .eraseToAnyPublisher()
     }
 }

@@ -15,6 +15,7 @@ struct GameModel: Equatable, Identifiable {
     let backgroundImage: String
     let rating: Double
     let platforms: [ParentPlatformModel]
+    let favorite: Bool
 }
 
 // MARK: - ParentPlatform
@@ -35,5 +36,6 @@ let exampleGameModel: GameModel = GameModel(
         ParentPlatformModel(id: 2, name: "PlayStation", slug: "playstation"),
         ParentPlatformModel(id: 3, name: "Xbox", slug: "xbox"),
         ParentPlatformModel(id: 7, name: "Nintendo", slug: "nintendo")
-    ]
+    ],
+    favorite: false
 )

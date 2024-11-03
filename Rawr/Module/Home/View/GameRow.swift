@@ -12,12 +12,6 @@ struct GameRow: View {
 
     let game: GameModel
 
-    init(game: GameModel) {
-        self.game = game
-    }
-
-    @State private var isFavorite: Bool = false
-
     var body: some View {
         HStack(spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
@@ -42,35 +36,12 @@ struct GameRow: View {
                         .background(Color.gray)
                 }
 
-                HStack {
-                    // Favorite Button
-                    Button(
-                        action: {
-//                            if isFavorite {
-//                                FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
-//                            } else {
-//                                FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
-//                            }
-                            isFavorite.toggle()
-                        },
-                        label: {
-                            Image(
-                                systemName: isFavorite ? "heart.fill" : "heart"
-                            ).foregroundColor(isFavorite ? .red : .gray)
-                        }
-                    )
-                        .padding(4)
-                        .background(.regularMaterial)
-                        .cornerRadius(8)
-                        .padding(8)
-                    Spacer()
-                    RatingView(game.rating)
-                        .padding(4)
-                        .padding(.horizontal, 2)
-                        .background(.regularMaterial)
-                        .cornerRadius(8)
-                        .padding(8)
-                }
+                RatingView(game.rating)
+                    .padding(4)
+                    .padding(.horizontal, 2)
+                    .background(.regularMaterial)
+                    .cornerRadius(8)
+                    .padding(8)
 
             }
             .frame(width: 140, height: 180)
@@ -99,9 +70,6 @@ struct GameRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: 180)
-//        .onAppear {
-//            isFavorite = FavoriteManager.isGameFavorite(game: game, context: viewContext)
-//        }
     }
 }
 

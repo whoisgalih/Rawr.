@@ -5,11 +5,10 @@
 //  Created by Galih Akbar on 03/11/24.
 //
 
-
 // MARK: - Welcome
 struct ScreenshotsResponse: Codable {
     let count: Int
-    let results: [Screenshot]
+    let results: [ScreenshotResponse]
 }
 
 // MARK: - Result

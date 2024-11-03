@@ -14,9 +14,11 @@ protocol LocaleDataSourceProtocol: AnyObject {
     func getGames() -> AnyPublisher<[GameEntity], Error>
     func addGames(from games: [GameEntity]) -> AnyPublisher<Bool, Error>
 
-    func getGameDetail(by idMeal: Int) -> AnyPublisher<GameDetailEntity?, Error>
+    func getGameDetail(by idGame: Int) -> AnyPublisher<GameDetailEntity?, Error>
     func addGameDetail(gameDetail: GameDetailEntity) -> AnyPublisher<Bool, Error>
 
+    func getFavoriteGames() -> AnyPublisher<[GameEntity], Error>
+    func updateFavoriteGame(by idGame: Int) -> AnyPublisher<GameEntity, Error>
 }
 
 final class LocaleDataSource: NSObject {
@@ -80,8 +82,6 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
                         .filter("id == %@", idGame)
                 }()
 
-//                print("games ", games)
-
                 guard let game = games.first else {
                     completion(.success(nil))
                     return
@@ -111,6 +111,77 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
                 completion(.failure(DatabaseError.invalidInstance))
             }
         }.eraseToAnyPublisher()
+    }
+
+    func getScreenshots() -> AnyPublisher<[ScreenshotEntity], any Error> {
+        return Future<[ScreenshotEntity], Error> { completion in
+            if let realm = self.realm {
+                let screenshots: Results<ScreenshotEntity> = {
+                    realm.objects(ScreenshotEntity.self)
+                        .sorted(byKeyPath: "id", ascending: true)
+                }()
+                completion(.success(screenshots.toArray(ofType: ScreenshotEntity.self)))
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    func addScreenshots(
+        from screenshots: [ScreenshotEntity]
+    ) -> AnyPublisher<Bool, any Error> {
+        return Future<Bool, any Error> { completion in
+            if let realm = self.realm {
+                do {
+                    try realm.write {
+                        for screenshot in screenshots {
+                            realm.add(screenshot, update: .all)
+                        }
+                        completion(.success(true))
+                    }
+                } catch {
+                    completion(.failure(DatabaseError.requestFailed))
+                }
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    func getFavoriteGames() -> AnyPublisher<[GameEntity], Error> {
+      return Future<[GameEntity], Error> { completion in
+        if let realm = self.realm {
+          let gameEntities = {
+            realm.objects(GameEntity.self)
+              .filter("favorite = \(true)")
+              .sorted(byKeyPath: "name", ascending: true)
+          }()
+          completion(.success(gameEntities.toArray(ofType: GameEntity.self)))
+        } else {
+          completion(.failure(DatabaseError.invalidInstance))
+        }
+      }.eraseToAnyPublisher()
+    }
+
+    func updateFavoriteGame(
+      by idGame: Int
+    ) -> AnyPublisher<GameEntity, Error> {
+      return Future<GameEntity, Error> { completion in
+        if let realm = self.realm, let gameEntity = {
+          realm.objects(GameEntity.self).filter("id = \(idGame)")
+        }().first {
+          do {
+            try realm.write {
+              gameEntity.setValue(!gameEntity.favorite, forKey: "favorite")
+            }
+            completion(.success(gameEntity))
+          } catch {
+            completion(.failure(DatabaseError.requestFailed))
+          }
+        } else {
+          completion(.failure(DatabaseError.invalidInstance))
+        }
+      }.eraseToAnyPublisher()
     }
 }
 

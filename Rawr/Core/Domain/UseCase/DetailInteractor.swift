@@ -12,6 +12,8 @@ protocol DetailUseCase {
 
     func getGame() -> GameModel
     func getGameDetail() -> AnyPublisher<GameDetailModel, Error>
+    func getScreenshots() -> AnyPublisher<[ScreenshotModel], Error>
+    func updateFavoriteGame() -> AnyPublisher<GameModel, Error>
 
 }
 
@@ -36,4 +38,11 @@ class DetailInteractor: DetailUseCase {
         return repository.getGameDetail(by: game.id)
     }
 
+    func getScreenshots() -> AnyPublisher<[ScreenshotModel], Error> {
+        return repository.getScreenshots(by: game.id)
+    }
+
+    func updateFavoriteGame() -> AnyPublisher<GameModel, Error> {
+        return repository.updateFavoriteGame(by: game.id)
+    }
 }

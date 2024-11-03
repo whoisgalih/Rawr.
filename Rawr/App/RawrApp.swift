@@ -11,11 +11,13 @@ import SwiftUI
 struct RawrApp: App {
     // Injecting dependencies into presenters for modules.
     let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome())
+    let favoritePresenter: FavoritePresenter = FavoritePresenter(favoriteUseCase: Injection.init().provideFavorite())
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(homePresenter)
+                .environmentObject(favoritePresenter)
 //                .environmentObject(userProfilePresenter)
         }
     }

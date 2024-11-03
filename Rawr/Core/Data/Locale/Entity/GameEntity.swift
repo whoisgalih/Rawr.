@@ -18,6 +18,8 @@ class GameEntity: Object {
 
     var platforms = List<ParentPlatformEntity>()
 
+    @objc dynamic var favorite = false
+
     override static func primaryKey() -> String? {
       return "id"
     }

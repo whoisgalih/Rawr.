@@ -53,7 +53,8 @@ final class GameMapper {
                         name: platform.name,
                         slug: platform.slug
                     )
-                }
+                },
+                favorite: result.favorite
             )
         }
     }
@@ -76,9 +77,31 @@ final class GameMapper {
                         name: response.platform.name,
                         slug: response.platform.slug
                     )
-                }
+                },
+                favorite: false
             )
         }
+    }
+
+    static func mapGameEntityToDomain(
+        input gameEntities: GameEntity
+    ) -> GameModel {
+        return GameModel(
+            id: gameEntities.id,
+            slug: gameEntities.slug,
+            name: gameEntities.name,
+            released: gameEntities.released,
+            backgroundImage: gameEntities.backgroundImage,
+            rating: gameEntities.rating,
+            platforms: gameEntities.platforms.map { platform in
+                ParentPlatformModel(
+                    id: platform.id,
+                    name: platform.name,
+                    slug: platform.slug
+                )
+            },
+            favorite: gameEntities.favorite
+        )
     }
 
 }

@@ -6,10 +6,10 @@
 //
 
 // MARK: - Welcome
-//struct ScreenshotResponse: Codable {
+// struct ScreenshotResponse: Codable {
 //    let count: Int
 //    let results: [Screenshot]
-//}
+// }
 
 // MARK: - Result
 struct Screenshot: Codable, Identifiable {
