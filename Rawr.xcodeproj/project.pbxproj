@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F60B56C62CD62DFC00EBFFFC /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56C52CD62DFC00EBFFFC /* HomePresenter.swift */; };
+		F60B56C92CD62E8D00EBFFFC /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56C82CD62E8D00EBFFFC /* Injection.swift */; };
+		F60B56CC2CD630F600EBFFFC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F60B56CB2CD630F600EBFFFC /* Alamofire */; };
+		F60B56CF2CD6315D00EBFFFC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F60B56CE2CD6315D00EBFFFC /* RealmSwift */; };
+		F60B56D22CD6319C00EBFFFC /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = F60B56D12CD6319C00EBFFFC /* CachedAsyncImage */; };
+		F60B56D42CD631D500EBFFFC /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56D32CD631D500EBFFFC /* GameRepository.swift */; };
+		F60B56D92CD6335200EBFFFC /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56D82CD6335200EBFFFC /* GameModel.swift */; };
+		F60B56DB2CD6348C00EBFFFC /* LocaleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56DA2CD6348C00EBFFFC /* LocaleDataSource.swift */; };
+		F60B56DF2CD6367F00EBFFFC /* CustomeError+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56DE2CD6367F00EBFFFC /* CustomeError+Ext.swift */; };
+		F60B56E12CD63C6300EBFFFC /* GameEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56E02CD63C6300EBFFFC /* GameEntity.swift */; };
+		F60B56E32CD63FB300EBFFFC /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56E22CD63FB300EBFFFC /* HomeRouter.swift */; };
+		F60B56E92CD6405E00EBFFFC /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56E82CD6405E00EBFFFC /* DetailPresenter.swift */; };
+		F60B56EB2CD6407F00EBFFFC /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56EA2CD6407F00EBFFFC /* DetailView.swift */; };
+		F60B56ED2CD6408D00EBFFFC /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56EC2CD6408D00EBFFFC /* HomeView.swift */; };
+		F60B56F02CD640CF00EBFFFC /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56EF2CD640CF00EBFFFC /* HomeInteractor.swift */; };
+		F60B56F22CD6419700EBFFFC /* RemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56F12CD6419700EBFFFC /* RemoteDataSource.swift */; };
+		F60B56F42CD641F200EBFFFC /* GamesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56F32CD641F200EBFFFC /* GamesResponse.swift */; };
+		F60B56FB2CD65F8900EBFFFC /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56FA2CD65F8900EBFFFC /* APICall.swift */; };
+		F60B56FE2CD661FE00EBFFFC /* GameMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56FD2CD661FE00EBFFFC /* GameMapper.swift */; };
+		F60B57002CD6675700EBFFFC /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B56FF2CD6675700EBFFFC /* DetailInteractor.swift */; };
+		F60B57052CD6F64500EBFFFC /* CustomEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B57042CD6F64500EBFFFC /* CustomEmptyView.swift */; };
+		F60B57072CD6F6FD00EBFFFC /* GameRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B57062CD6F6FD00EBFFFC /* GameRow.swift */; };
 		F60CB25828F013E40094C49A /* GemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CB25728F013E40094C49A /* GemeModel.swift */; };
 		F60CB25A28F0373F0094C49A /* ScreenshotsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CB25928F0373F0094C49A /* ScreenshotsModel.swift */; };
 		F60CB26328F1117C0094C49A /* GetSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CB26228F1117C0094C49A /* GetSize.swift */; };
@@ -47,6 +69,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F60B56C52CD62DFC00EBFFFC /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		F60B56C82CD62E8D00EBFFFC /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
+		F60B56D32CD631D500EBFFFC /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
+		F60B56D82CD6335200EBFFFC /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		F60B56DA2CD6348C00EBFFFC /* LocaleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDataSource.swift; sourceTree = "<group>"; };
+		F60B56DE2CD6367F00EBFFFC /* CustomeError+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomeError+Ext.swift"; sourceTree = "<group>"; };
+		F60B56E02CD63C6300EBFFFC /* GameEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEntity.swift; sourceTree = "<group>"; };
+		F60B56E22CD63FB300EBFFFC /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		F60B56E82CD6405E00EBFFFC /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		F60B56EA2CD6407F00EBFFFC /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		F60B56EC2CD6408D00EBFFFC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F60B56EF2CD640CF00EBFFFC /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		F60B56F12CD6419700EBFFFC /* RemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataSource.swift; sourceTree = "<group>"; };
+		F60B56F32CD641F200EBFFFC /* GamesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesResponse.swift; sourceTree = "<group>"; };
+		F60B56FA2CD65F8900EBFFFC /* APICall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
+		F60B56FD2CD661FE00EBFFFC /* GameMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMapper.swift; sourceTree = "<group>"; };
+		F60B56FF2CD6675700EBFFFC /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		F60B57042CD6F64500EBFFFC /* CustomEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEmptyView.swift; sourceTree = "<group>"; };
+		F60B57062CD6F6FD00EBFFFC /* GameRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRow.swift; sourceTree = "<group>"; };
 		F60CB25728F013E40094C49A /* GemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemeModel.swift; sourceTree = "<group>"; };
 		F60CB25928F0373F0094C49A /* ScreenshotsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsModel.swift; sourceTree = "<group>"; };
 		F60CB26228F1117C0094C49A /* GetSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSize.swift; sourceTree = "<group>"; };
@@ -93,12 +134,225 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F60B56D22CD6319C00EBFFFC /* CachedAsyncImage in Frameworks */,
+				F60B56CF2CD6315D00EBFFFC /* RealmSwift in Frameworks */,
+				F60B56CC2CD630F600EBFFFC /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F60B56B82CD6230E00EBFFFC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F6D8A35928D7410300AA2919 /* RawrApp.swift */,
+				F6D8A35B28D7410300AA2919 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F60B56BA2CD623EF00EBFFFC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56DC2CD6351D00EBFFFC /* Utils */,
+				F60B56BB2CD623FC00EBFFFC /* Data */,
+				F60B56C72CD62E7100EBFFFC /* DI */,
+				F60B56D52CD6325300EBFFFC /* Domain */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F60B56BB2CD623FC00EBFFFC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56BC2CD6240500EBFFFC /* Locale */,
+				F60B56DA2CD6348C00EBFFFC /* LocaleDataSource.swift */,
+				F60B56BE2CD6242B00EBFFFC /* Remote */,
+				F60B56D32CD631D500EBFFFC /* GameRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F60B56BC2CD6240500EBFFFC /* Locale */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56BD2CD6240D00EBFFFC /* Entity */,
+			);
+			path = Locale;
+			sourceTree = "<group>";
+		};
+		F60B56BD2CD6240D00EBFFFC /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56E02CD63C6300EBFFFC /* GameEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		F60B56BE2CD6242B00EBFFFC /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56BF2CD6243C00EBFFFC /* Response */,
+				F60B56F12CD6419700EBFFFC /* RemoteDataSource.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		F60B56BF2CD6243C00EBFFFC /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56F32CD641F200EBFFFC /* GamesResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		F60B56C02CD62CEF00EBFFFC /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56C12CD62CFF00EBFFFC /* Home */,
+				F60B56E42CD6400B00EBFFFC /* Detail */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		F60B56C12CD62CFF00EBFFFC /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56C22CD62D2300EBFFFC /* Presenter */,
+				F60B56C32CD62D3000EBFFFC /* Router */,
+				F60B56C42CD62D4200EBFFFC /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		F60B56C22CD62D2300EBFFFC /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56C52CD62DFC00EBFFFC /* HomePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		F60B56C32CD62D3000EBFFFC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56E22CD63FB300EBFFFC /* HomeRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		F60B56C42CD62D4200EBFFFC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56EC2CD6408D00EBFFFC /* HomeView.swift */,
+				F60B57062CD6F6FD00EBFFFC /* GameRow.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F60B56C72CD62E7100EBFFFC /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56C82CD62E8D00EBFFFC /* Injection.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		F60B56D52CD6325300EBFFFC /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56D62CD6326A00EBFFFC /* Model */,
+				F60B56EE2CD640B400EBFFFC /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F60B56D62CD6326A00EBFFFC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56D82CD6335200EBFFFC /* GameModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F60B56DC2CD6351D00EBFFFC /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F60B57032CD6F62F00EBFFFC /* View */,
+				F60B56FC2CD661F200EBFFFC /* Mapper */,
+				F60B56F72CD65F4200EBFFFC /* Network */,
+				F60B56DD2CD6352600EBFFFC /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F60B56DD2CD6352600EBFFFC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56DE2CD6367F00EBFFFC /* CustomeError+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F60B56E42CD6400B00EBFFFC /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56E52CD6401300EBFFFC /* Presenter */,
+				F60B56E72CD6402400EBFFFC /* View */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		F60B56E52CD6401300EBFFFC /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56E82CD6405E00EBFFFC /* DetailPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		F60B56E72CD6402400EBFFFC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56EA2CD6407F00EBFFFC /* DetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F60B56EE2CD640B400EBFFFC /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56FF2CD6675700EBFFFC /* DetailInteractor.swift */,
+				F60B56EF2CD640CF00EBFFFC /* HomeInteractor.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		F60B56F72CD65F4200EBFFFC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56FA2CD65F8900EBFFFC /* APICall.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F60B56FC2CD661F200EBFFFC /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				F60B56FD2CD661FE00EBFFFC /* GameMapper.swift */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		F60B57032CD6F62F00EBFFFC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F60B57042CD6F64500EBFFFC /* CustomEmptyView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F6A1A94928E66ED8005A6116 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,9 +445,10 @@
 		F6D8A35828D7410300AA2919 /* Rawr */ = {
 			isa = PBXGroup;
 			children = (
+				F60B56B82CD6230E00EBFFFC /* App */,
+				F60B56BA2CD623EF00EBFFFC /* Core */,
+				F60B56C02CD62CEF00EBFFFC /* Module */,
 				F6A4661028F2D45100533C02 /* Info.plist */,
-				F6D8A35928D7410300AA2919 /* RawrApp.swift */,
-				F6D8A35B28D7410300AA2919 /* ContentView.swift */,
 				F6FDD31D29147A87004EE9CE /* Storage */,
 				F6A1A94A28E66F1C005A6116 /* Pages */,
 				F6BF05F728EBB464007F34EA /* NetworkSource */,
@@ -258,6 +513,9 @@
 			);
 			name = Rawr;
 			packageProductDependencies = (
+				F60B56CB2CD630F600EBFFFC /* Alamofire */,
+				F60B56CE2CD6315D00EBFFFC /* RealmSwift */,
+				F60B56D12CD6319C00EBFFFC /* CachedAsyncImage */,
 			);
 			productName = Rawr;
 			productReference = F6D8A35628D7410300AA2919 /* Rawr.app */;
@@ -288,6 +546,9 @@
 			);
 			mainGroup = F6D8A34D28D7410200AA2919;
 			packageReferences = (
+				F60B56CA2CD630F600EBFFFC /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F60B56CD2CD6315D00EBFFFC /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F60B56D02CD6319C00EBFFFC /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = F6D8A35728D7410300AA2919 /* Products */;
 			projectDirPath = "";
@@ -333,7 +594,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint > /dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -345,32 +606,51 @@
 				F6E312CC2CB3ECD40099A896 /* FavoritesViewModel.swift in Sources */,
 				F6BF05FB28EBBB77007F34EA /* GamesModel.swift in Sources */,
 				F6AF052D28D95E9900EA148E /* CustomFont.swift in Sources */,
+				F60B56C62CD62DFC00EBFFFC /* HomePresenter.swift in Sources */,
 				F6BF05F628EA8DA1007F34EA /* InformationDescription.swift in Sources */,
 				F60CB26328F1117C0094C49A /* GetSize.swift in Sources */,
+				F60B56E32CD63FB300EBFFFC /* HomeRouter.swift in Sources */,
+				F60B56EB2CD6407F00EBFFFC /* DetailView.swift in Sources */,
 				F6E312CE2CB3ED0B0099A896 /* FavoritesPage.swift in Sources */,
 				F6E312D02CB3EDFB0099A896 /* PersistenceController.swift in Sources */,
+				F60B56F42CD641F200EBFFFC /* GamesResponse.swift in Sources */,
+				F60B56C92CD62E8D00EBFFFC /* Injection.swift in Sources */,
 				F65BDEB628EA5EB000839DBC /* Tag.swift in Sources */,
 				F6BF05FD28ECF1BA007F34EA /* GameListRow.swift in Sources */,
+				F60B56FB2CD65F8900EBFFFC /* APICall.swift in Sources */,
+				F60B56ED2CD6408D00EBFFFC /* HomeView.swift in Sources */,
+				F60B57052CD6F64500EBFFFC /* CustomEmptyView.swift in Sources */,
 				F6E312D22CB3EFCC0099A896 /* FavoriteManager.swift in Sources */,
 				F6BF05FF28ECFA11007F34EA /* PlatformIcons.swift in Sources */,
 				F6BF05F928EBB482007F34EA /* NetworkService.swift in Sources */,
+				F60B57002CD6675700EBFFFC /* DetailInteractor.swift in Sources */,
+				F60B56D42CD631D500EBFFFC /* GameRepository.swift in Sources */,
 				F6647C3F2CB4E8D700BAEE49 /* NetworkView.swift in Sources */,
 				F60CB25A28F0373F0094C49A /* ScreenshotsModel.swift in Sources */,
 				F6647C3D2CB4E58000BAEE49 /* NetworkMonitor.swift in Sources */,
+				F60B56DB2CD6348C00EBFFFC /* LocaleDataSource.swift in Sources */,
+				F60B57072CD6F6FD00EBFFFC /* GameRow.swift in Sources */,
+				F60B56F22CD6419700EBFFFC /* RemoteDataSource.swift in Sources */,
+				F60B56FE2CD661FE00EBFFFC /* GameMapper.swift in Sources */,
 				F60CB25828F013E40094C49A /* GemeModel.swift in Sources */,
 				F6D8A35C28D7410300AA2919 /* ContentView.swift in Sources */,
+				F60B56F02CD640CF00EBFFFC /* HomeInteractor.swift in Sources */,
 				F6ADFE1E2917B4AD00787C35 /* Rawr.xcdatamodeld in Sources */,
+				F60B56E12CD63C6300EBFFFC /* GameEntity.swift in Sources */,
 				F6A1A96828E71CD2005A6116 /* GameDetailPage.swift in Sources */,
 				F6A1A94C28E66F39005A6116 /* GamesListPage.swift in Sources */,
 				F6D8A35A28D7410300AA2919 /* RawrApp.swift in Sources */,
 				F6E312D42CB3F4940099A896 /* MainTabView.swift in Sources */,
 				F6D008B828E18602002CF8DC /* CustomColor.swift in Sources */,
+				F60B56E92CD6405E00EBFFFC /* DetailPresenter.swift in Sources */,
 				F69BCE9128E511100078D3CA /* Rating.swift in Sources */,
 				F6ADFE0429176E9600787C35 /* ProfileEditView.swift in Sources */,
+				F60B56DF2CD6367F00EBFFFC /* CustomeError+Ext.swift in Sources */,
 				F6E312D82CB3F4F50099A896 /* ProfilePicture.swift in Sources */,
 				F6A4660B28F2CFDE00533C02 /* ProfileView.swift in Sources */,
 				F6E312C72CB3738B0099A896 /* ParallaxHeader.swift in Sources */,
 				F6FDD32029147AA8004EE9CE /* UserModel.swift in Sources */,
+				F60B56D92CD6335200EBFFFC /* GameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +863,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F60B56CA2CD630F600EBFFFC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
+		F60B56CD2CD6315D00EBFFFC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		F60B56D02CD6319C00EBFFFC /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F60B56CB2CD630F600EBFFFC /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F60B56CA2CD630F600EBFFFC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		F60B56CE2CD6315D00EBFFFC /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F60B56CD2CD6315D00EBFFFC /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		F60B56D12CD6319C00EBFFFC /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F60B56D02CD6319C00EBFFFC /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		F6ADFE1C2917B4AD00787C35 /* Rawr.xcdatamodeld */ = {

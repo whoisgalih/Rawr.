@@ -7,20 +7,20 @@
 
 import CoreData
 
-// MARK: - GameResponse
-struct GamesResponse: Codable {
-    let count: Int
-    let next, previous: String?
-    let results: [GamesResult]
-    let gamesCount, reviewsCount, recommendationsCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case count, next, previous, results
-        case gamesCount = "games_count"
-        case reviewsCount = "reviews_count"
-        case recommendationsCount = "recommendations_count"
-    }
-}
+//// MARK: - GameResponse
+// struct GamesResponse: Codable {
+//    let count: Int
+//    let next, previous: String?
+//    let results: [GamesResult]
+//    let gamesCount, reviewsCount, recommendationsCount: Int
+//
+//    enum CodingKeys: String, CodingKey {
+//        case count, next, previous, results
+//        case gamesCount = "games_count"
+//        case reviewsCount = "reviews_count"
+//        case recommendationsCount = "recommendations_count"
+//    }
+// }
 
 // MARK: - Result
 struct GamesResult: Codable {

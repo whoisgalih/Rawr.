@@ -2,20 +2,18 @@
 //  GameListRow.swift
 //  Rawr
 //
-//  Created by Galih Akbar on 05/10/22.
+//  Created by Galih Akbar on 03/11/24.
 //
 
 import SwiftUI
+import CachedAsyncImage
 
-struct GameListRow: View {
-    @Environment(\.managedObjectContext) private var viewContext
+struct GameRow: View {
 
-    let game: Game
-    let imageData: Data? // Add this parameter to pass the image data if available
+    let game: GameModel
 
-    init(_ game: Game, imageData: Data? = nil) {
+    init(game: GameModel) {
         self.game = game
-        self.imageData = imageData
     }
 
     @State private var isFavorite: Bool = false
@@ -23,16 +21,9 @@ struct GameListRow: View {
     var body: some View {
         HStack(spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
-                if let imageData = imageData, let uiImage = UIImage(data: imageData) {
-                    // Load the image from Core Data if available
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 140, height: 180)
-                        .clipped()
-                } else if game.backgroundImage != "", let url = URL(string: game.backgroundImage) {
+                if let url = URL(string: game.backgroundImage) {
                     // Load the image from URL if available
-                    AsyncImage(url: url) { image in
+                    CachedAsyncImage(url: url) { image in
                         image
                             .resizable()
                             .scaledToFill()
@@ -55,11 +46,11 @@ struct GameListRow: View {
                     // Favorite Button
                     Button(
                         action: {
-                            if isFavorite {
-                                FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
-                            } else {
-                                FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
-                            }
+//                            if isFavorite {
+//                                FavoriteManager.removeGameFromFavorites(game: game, context: viewContext)
+//                            } else {
+//                                FavoriteManager.saveGameToFavorites(game: game, context: viewContext)
+//                            }
                             isFavorite.toggle()
                         },
                         label: {
@@ -100,25 +91,23 @@ struct GameListRow: View {
                             .foregroundColor(.textPrimary)
                     }
 
-                Spacer()
-
-                PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
+//                Spacer()
+//
+//                PlatformIcons(platforms: game.platforms.map { $0.platform.slug })
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(height: 180)
-        .onAppear {
-            isFavorite = FavoriteManager.isGameFavorite(game: game, context: viewContext)
-        }
+//        .onAppear {
+//            isFavorite = FavoriteManager.isGameFavorite(game: game, context: viewContext)
+//        }
     }
 }
 
-struct GameListRow_Previews: PreviewProvider {
+struct GameRow_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
-        GameListRow(exampleGame)
-            .environment(\.managedObjectContext, context)
+        GameRow(game: exampleGameModel)
             .previewLayout(.sizeThatFits)
     }
 }

@@ -94,21 +94,21 @@ class NetworkService {
         let request = URLRequest(url: components.url!)
 
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-
-            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-                fatalError("Error: Can't fetching data.")
-            }
-
-            let decoder = JSONDecoder()
-            let result = try decoder.decode(GamesResponse.self, from: data)
-
-            let mappedGames = gamesMapper(input: result.results)
-
-            games.wrappedValue.append(contentsOf: mappedGames)
-            lastID.wrappedValue = mappedGames[mappedGames.count - 1].id
-            isNextable.wrappedValue = result.next != nil
-            downloadState.wrappedValue = .downloaded
+//            let (data, response) = try await URLSession.shared.data(for: request)
+//
+//            guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+//                fatalError("Error: Can't fetching data.")
+//            }
+//
+//            let decoder = JSONDecoder()
+//            let result = try decoder.decode(GamesResponse.self, from: data)
+//
+//            let mappedGames = gamesMapper(input: result.results)
+//
+//            games.wrappedValue.append(contentsOf: mappedGames)
+//            lastID.wrappedValue = mappedGames[mappedGames.count - 1].id
+//            isNextable.wrappedValue = result.next != nil
+//            downloadState.wrappedValue = .downloaded
         } catch {
             downloadState.wrappedValue = .failed
         }
