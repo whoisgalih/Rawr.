@@ -53,14 +53,4 @@ final class Injection: NSObject {
         return SearchInteractor(repository: repository)
     }
 
-    //    func provideFavorite() -> ProfileUseCase {
-    //        let repository = provideRepository()
-    //        return ProfileInteractor(repository: repository)
-    //    }
-
-    //    func provideMeal(meal: MealModel) -> MealUseCase {
-    //        let repository = provideRepository()
-    //        return MealInteractor(repository: repository, meal: meal)
-    //    }
-
 }

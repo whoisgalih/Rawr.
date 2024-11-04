@@ -42,14 +42,14 @@ extension FavoriteView {
 
     var errorIndicator: some View {
         CustomEmptyView(
-            image: "assetSearchNotFound",
+            image: "exclamationmark.triangle.fill",
             title: presenter.errorMessage
         ).offset(y: 80)
     }
 
     var emptyFavorites: some View {
         CustomEmptyView(
-            image: "assetNoFavorite",
+            image: "heart.slash.fill",
             title: "Your favorite is empty"
         ).offset(y: 80)
     }

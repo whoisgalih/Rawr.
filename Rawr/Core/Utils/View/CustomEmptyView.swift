@@ -14,11 +14,12 @@ struct CustomEmptyView: View {
 
     var body: some View {
         VStack {
-            Image(image)
+            Image(systemName: image)
                 .resizable()
                 .renderingMode(.original)
                 .scaledToFit()
-                .frame(width: 250)
+                .frame(width: 100)
+                .padding(.bottom, 32)
 
             Text(title)
                 .font(.system(.body, design: .rounded))

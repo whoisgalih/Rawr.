@@ -89,7 +89,7 @@ extension DetailView {
 
     var errorIndicator: some View {
         CustomEmptyView(
-            image: "assetSearchNotFound",
+            image: "exclamationmark.triangle.fill",
             title: presenter.errorMessage
         ).offset(y: 80)
     }
