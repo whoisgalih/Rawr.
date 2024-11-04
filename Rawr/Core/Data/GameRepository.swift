@@ -16,6 +16,8 @@ protocol GameRepositoryProtocol {
 
     func getFavoriteGames() -> AnyPublisher<[GameModel], Error>
     func updateFavoriteGame(by idGame: Int) -> AnyPublisher<GameModel, Error>
+
+    func searchGame(by name: String) -> AnyPublisher<[GameModel], Error>
 }
 
 final class GameRepository: NSObject {
@@ -67,7 +69,9 @@ extension GameRepository: GameRepositoryProtocol {
                 if result == nil {
                     return self.remote.getGameDetail(by: idGame)
                         .map { GameDetailMapper.mapGameDetailResponseToEntity(by: idGame, input: $0) }
-                    //                        .catch { _ in self.locale.getGameDetail(by: idGame) }
+//                        .catch { error -> AnyPublisher<GameDetailEntity?, Error> in
+//                            return self.locale.getGameDetail(by: idGame)
+//                        }
                         .flatMap { self.locale.addGameDetail(gameDetail: $0) }
                         .filter { $0 }
                         .flatMap { _ in self.locale.getGameDetail(by: idGame)
@@ -116,5 +120,31 @@ extension GameRepository: GameRepositoryProtocol {
         return self.locale.updateFavoriteGame(by: idGame)
             .map { GameMapper.mapGameEntityToDomain(input: $0) }
             .eraseToAnyPublisher()
+    }
+
+    func searchGame(
+      by name: String
+    ) -> AnyPublisher<[GameModel], Error> {
+      return self.remote.searchGame(by: name)
+        .map { GameMapper.mapGameResponsesToEntities(input: $0) }
+        .catch { _ -> AnyPublisher<[GameEntity], Error> in
+            return self.locale.getGamesBy(name)
+        }
+        .flatMap { responses  in
+          self.locale.getGamesBy(name)
+            .flatMap { locale -> AnyPublisher<[GameModel], Error> in
+              if responses.count > locale.count {
+                return self.locale.addGamesBy(name, from: responses)
+                  .filter { $0 }
+                  .flatMap { _ in self.locale.getGamesBy(name)
+                          .map { GameMapper.mapGameEntitiesToDomains(input: $0) }
+                  }.eraseToAnyPublisher()
+              } else {
+                return self.locale.getGamesBy(name)
+                  .map { GameMapper.mapGameEntitiesToDomains(input: $0) }
+                  .eraseToAnyPublisher()
+              }
+            }
+        }.eraseToAnyPublisher()
     }
 }

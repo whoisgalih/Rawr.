@@ -13,6 +13,7 @@ protocol LocaleDataSourceProtocol: AnyObject {
 
     func getGames() -> AnyPublisher<[GameEntity], Error>
     func addGames(from games: [GameEntity]) -> AnyPublisher<Bool, Error>
+    func getGamesBy( _ name: String) -> AnyPublisher<[GameEntity], Error>
 
     func getGameDetail(by idGame: Int) -> AnyPublisher<GameDetailEntity?, Error>
     func addGameDetail(gameDetail: GameDetailEntity) -> AnyPublisher<Bool, Error>
@@ -148,38 +149,86 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
     }
 
     func getFavoriteGames() -> AnyPublisher<[GameEntity], Error> {
-      return Future<[GameEntity], Error> { completion in
-        if let realm = self.realm {
-          let gameEntities = {
-            realm.objects(GameEntity.self)
-              .filter("favorite = \(true)")
-          }()
-          completion(.success(gameEntities.toArray(ofType: GameEntity.self)))
-        } else {
-          completion(.failure(DatabaseError.invalidInstance))
-        }
-      }.eraseToAnyPublisher()
+        return Future<[GameEntity], Error> { completion in
+            if let realm = self.realm {
+                let gameEntities = {
+                    realm.objects(GameEntity.self)
+                        .filter("favorite = \(true)")
+                }()
+                completion(.success(gameEntities.toArray(ofType: GameEntity.self)))
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
+            }
+        }.eraseToAnyPublisher()
     }
 
     func updateFavoriteGame(
-      by idGame: Int
+        by idGame: Int
     ) -> AnyPublisher<GameEntity, Error> {
-      return Future<GameEntity, Error> { completion in
-        if let realm = self.realm, let gameEntity = {
-          realm.objects(GameEntity.self).filter("id = \(idGame)")
-        }().first {
-          do {
-            try realm.write {
-              gameEntity.setValue(!gameEntity.favorite, forKey: "favorite")
+        return Future<GameEntity, Error> { completion in
+            if let realm = self.realm, let gameEntity = {
+                realm.objects(GameEntity.self).filter("id = \(idGame)")
+            }().first {
+                do {
+                    try realm.write {
+                        gameEntity.setValue(!gameEntity.favorite, forKey: "favorite")
+                    }
+                    completion(.success(gameEntity))
+                } catch {
+                    completion(.failure(DatabaseError.requestFailed))
+                }
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
             }
-            completion(.success(gameEntity))
-          } catch {
-            completion(.failure(DatabaseError.requestFailed))
-          }
-        } else {
-          completion(.failure(DatabaseError.invalidInstance))
-        }
-      }.eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
+    }
+
+    func getGamesBy(
+        _ name: String
+    ) -> AnyPublisher<[GameEntity], Error> {
+        return Future<[GameEntity], Error> { completion in
+            if let realm = self.realm {
+                let games: Results<GameEntity> = {
+                    realm.objects(GameEntity.self)
+                        .filter("name contains[c] %@", name)
+                        .sorted(byKeyPath: "name", ascending: true)
+                }()
+                completion(.success(games.toArray(ofType: GameEntity.self)))
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
+            }
+        }.eraseToAnyPublisher()
+    }
+
+    func addGamesBy(
+        _ name: String,
+        from games: [GameEntity]
+    ) -> AnyPublisher<Bool, Error> {
+        return Future<Bool, Error> { completion in
+            if let realm = self.realm {
+                do {
+                    try realm.write {
+                        for game in games {
+                            if let gameEntity = realm.object(ofType: GameEntity.self, forPrimaryKey: game.id) {
+                                if gameEntity.name == game.name {
+                                    game.favorite = gameEntity.favorite
+                                    realm.add(game, update: .all)
+                                } else {
+                                    realm.add(game)
+                                }
+                            } else {
+                                realm.add(game)
+                            }
+                        }
+                    }
+                    completion(.success(true))
+                } catch {
+                    completion(.failure(DatabaseError.requestFailed))
+                }
+            } else {
+                completion(.failure(DatabaseError.invalidInstance))
+            }
+        }.eraseToAnyPublisher()
     }
 }
 

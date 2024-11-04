@@ -9,7 +9,7 @@ import Foundation
 
 struct API {
 
-    static let baseUrl = "https://api.rawg.io/api/games/"
+    static let baseUrl = "https://api.rawg.io/api/games"
 
 }
 
@@ -23,12 +23,12 @@ enum Endpoints {
 
     enum Gets: Endpoint {
         case list
-        case detail
+        case games
 
         public var url: String {
             switch self {
-            case .list: return "\(API.baseUrl)lists/main"
-            case .detail: return "\(API.baseUrl)"
+            case .list: return "\(API.baseUrl)/lists/main"
+            case .games: return "\(API.baseUrl)"
             }
         }
     }

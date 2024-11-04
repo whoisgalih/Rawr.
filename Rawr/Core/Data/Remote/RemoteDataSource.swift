@@ -13,6 +13,8 @@ protocol RemoteDataSourceProtocol: AnyObject {
 
     func getGames() -> AnyPublisher<[GameResponse], Error>
     func getGameDetail(by id: Int) -> AnyPublisher<GameDetailResponse, Error>
+    func getScreenshots(by id: Int) -> AnyPublisher<[ScreenshotResponse], Error>
+    func searchGame(by name: String) -> AnyPublisher<[GameResponse], Error>
 
 }
 
@@ -67,7 +69,7 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
         by id: Int
     ) -> AnyPublisher<GameDetailResponse, Error> {
         return Future<GameDetailResponse, Error> { completion in
-            if let url = URL(string: Endpoints.Gets.detail.url + String(id)) {
+            if let url = URL(string: Endpoints.Gets.games.url + "/\(id)") {
                 let parameters: [String: String] = [
                     "key": self.apiKey
                 ]
@@ -90,7 +92,7 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
         by id: Int
     ) -> AnyPublisher<[ScreenshotResponse], Error> {
         return Future<[ScreenshotResponse], Error> { completion in
-            if let url = URL(string: Endpoints.Gets.detail.url + String(id) + "/screenshots") {
+            if let url = URL(string: Endpoints.Gets.games.url + "/\(id)/screenshots") {
                 let parameters: [String: String] = [
                     "key": self.apiKey
                 ]
@@ -109,4 +111,27 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
         }.eraseToAnyPublisher()
     }
 
+    func searchGame(
+        by name: String
+    ) -> AnyPublisher<[GameResponse], Error> {
+        return Future<[GameResponse], Error> { completion in
+            if let url = URL(string: Endpoints.Gets.games.url) {
+                let parameters: [String: String] = [
+                    "key": self.apiKey,
+                    "search": name
+                ]
+
+                AF.request(url, parameters: parameters)
+                    .validate()
+                    .responseDecodable(of: GamesResponse.self) { response in
+                        switch response.result {
+                        case .success(let value):
+                            completion(.success(value.results))
+                        case .failure:
+                            completion(.failure(URLError.invalidResponse))
+                        }
+                    }
+            }
+        }.eraseToAnyPublisher()
+    }
 }
