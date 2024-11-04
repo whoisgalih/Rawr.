@@ -11,8 +11,8 @@ import Combine
 
 protocol LocaleDataSourceProtocol: AnyObject {
 
-    func getGames() -> AnyPublisher<[GameEntity], Error>
-    func addGames(from games: [GameEntity]) -> AnyPublisher<Bool, Error>
+    func getGames(page: Int) -> AnyPublisher<[GameModel], Error>
+    func addGames(from entities: [GameEntity]) -> AnyPublisher<Bool, Error>
     func getGamesBy( _ name: String) -> AnyPublisher<[GameEntity], Error>
 
     func getGameDetail(by idGame: Int) -> AnyPublisher<GameDetailEntity?, Error>
@@ -38,38 +38,49 @@ final class LocaleDataSource: NSObject {
 
 extension LocaleDataSource: LocaleDataSourceProtocol {
 
-    func getGames() -> AnyPublisher<[GameEntity], any Error> {
-        return Future<[GameEntity], Error> { completion in
-            if let realm = self.realm {
-                let games: Results<GameEntity> = {
-                    realm.objects(GameEntity.self)
-                }()
-                completion(.success(games.toArray(ofType: GameEntity.self)))
-            } else {
+    // Fetches games for a specific page from local storage.
+    func getGames(page: Int) -> AnyPublisher<[GameModel], Error> {
+        return Future<[GameModel], Error> { [weak self] completion in
+            guard let self = self, let realm = self.realm else {
                 completion(.failure(DatabaseError.invalidInstance))
+                return
             }
-        }.eraseToAnyPublisher()
+
+            let pageSize = 20
+            let offset = (page - 1) * pageSize
+            let sortedGames = realm.objects(GameEntity.self)
+            //                .sorted(byKeyPath: "id", ascending: false) // Adjust sorting as per API's ordering
+
+            if offset < sortedGames.count {
+                let end = offset + pageSize
+                let slicedGames = sortedGames[offset..<min(end, sortedGames.count)]
+                let models = GameMapper.mapGameEntitiesToDomains(input: Array(slicedGames))
+                completion(.success(models))
+            } else {
+                completion(.success([])) // No more games to fetch
+            }
+        }
+        .eraseToAnyPublisher()
     }
 
-    func addGames(
-        from games: [GameEntity]
-    ) -> AnyPublisher<Bool, any Error> {
-        return Future<Bool, any Error> { completion in
-            if let realm = self.realm {
-                do {
-                    try realm.write {
-                        for game in games {
-                            realm.add(game, update: .all)
-                        }
-                        completion(.success(true))
-                    }
-                } catch {
-                    completion(.failure(DatabaseError.requestFailed))
-                }
-            } else {
+    // Adds new games to local storage.
+    func addGames(from entities: [GameEntity]) -> AnyPublisher<Bool, Error> {
+        return Future<Bool, Error> { [weak self] completion in
+            guard let self = self, let realm = self.realm else {
                 completion(.failure(DatabaseError.invalidInstance))
+                return
             }
-        }.eraseToAnyPublisher()
+
+            do {
+                try realm.write {
+                    realm.add(entities, update: .modified) // Prevent duplicates using primary key
+                }
+                completion(.success(true))
+            } catch {
+                completion(.failure(DatabaseError.requestFailed))
+            }
+        }
+        .eraseToAnyPublisher()
     }
 
     func getGameDetail(

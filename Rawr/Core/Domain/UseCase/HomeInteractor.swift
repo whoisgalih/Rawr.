@@ -10,8 +10,11 @@ import Combine
 
 protocol HomeUseCase {
 
-    func getGames() -> AnyPublisher<[GameModel], Error>
+    // Fetches the initial set of games. If `reset` is true, it resets the pagination.
+    func getGames(reset: Bool) -> AnyPublisher<[GameModel], Error>
 
+    // Loads the next page of games.
+    func loadMoreGames() -> AnyPublisher<[GameModel], Error>
 }
 
 class HomeInteractor: HomeUseCase {
@@ -22,8 +25,14 @@ class HomeInteractor: HomeUseCase {
         self.repository = repository
     }
 
-    func getGames() -> AnyPublisher<[GameModel], Error> {
-        return repository.getGames()
+    // Fetches the initial set of games. If `reset` is true, it resets the pagination.
+    func getGames(reset: Bool = false) -> AnyPublisher<[GameModel], Error> {
+        return repository.getGames(reset: reset)
+    }
+
+    // Loads the next page of games.
+    func loadMoreGames() -> AnyPublisher<[GameModel], Error> {
+        return repository.loadMoreGames()
     }
 
 }

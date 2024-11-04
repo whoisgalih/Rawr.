@@ -19,25 +19,68 @@ class HomePresenter: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isError: Bool = false
 
+    // Pagination flags
+    @Published var isFetchingMore: Bool = false
+
+    private var canLoadMore: Bool = true
+
     init(homeUseCase: HomeUseCase) {
         self.homeUseCase = homeUseCase
     }
 
-    func getGames() {
+    // Fetches games. If `reset` is true, it resets the list.
+    func getGames(reset: Bool = false) {
+        if reset {
+            self.canLoadMore = true
+            self.games = []
+        }
+
+        guard !isLoading else { return }
+
         isLoading = true
-        homeUseCase.getGames()
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { completion in
+        homeUseCase.getGames(reset: reset)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                self.isLoading = false
                 switch completion {
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                     self.isError = true
-                    self.isLoading = false
                 case .finished:
-                    self.isLoading = false
+                    break
                 }
-            }, receiveValue: { games in
-                self.games = games
+            }, receiveValue: { [weak self] fetchedGames in
+                guard let self = self else { return }
+                if reset {
+                    self.games = fetchedGames
+                } else {
+                    self.games.append(contentsOf: fetchedGames)
+                }
+                self.canLoadMore = !fetchedGames.isEmpty
+            })
+            .store(in: &cancellables)
+    }
+
+    // Loads more games when the user scrolls to the bottom.
+    func loadMoreGames() {
+        guard canLoadMore, !isFetchingMore else { return }
+        isFetchingMore = true
+
+        homeUseCase.loadMoreGames()
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                self.isFetchingMore = false
+                switch completion {
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                    self.isError = true
+                case .finished:
+                    break
+                }
+            }, receiveValue: { [weak self] fetchedGames in
+                guard let self = self else { return }
+                self.games.append(contentsOf: fetchedGames)
+                self.canLoadMore = !fetchedGames.isEmpty
             })
             .store(in: &cancellables)
     }

@@ -22,8 +22,8 @@ struct HomeView: View {
                 content
             }
         }.onAppear {
-            if self.presenter.games.count == 0 {
-                self.presenter.getGames()
+            if self.presenter.games.isEmpty {
+                self.presenter.getGames(reset: true)
             }
         }.navigationBarTitle(
             Text("Rawr"),
@@ -57,17 +57,34 @@ extension HomeView {
 
     var content: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 16) {
-                ForEach(
-                    self.presenter.games,
-                    id: \.id
-                ) { game in
+            LazyVStack(spacing: 16) {
+                ForEach(self.presenter.games) { game in
                     self.presenter.linkBuilder(for: game) {
                         GameRow(game: game)
-                    }.buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                // Trigger load more when the last game appears
+                                if self.presenter.games.last == game {
+                                    self.presenter.loadMoreGames()
+                                }
+                            }
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     .padding(.horizontal, 16)
                 }
+
+                if presenter.isFetchingMore {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
+                    .padding(.vertical, 16)
+                }
             }
+            .padding(.vertical, 16)
+        }
+        .refreshable {
+            self.presenter.getGames(reset: true)
         }
     }
 

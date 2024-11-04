@@ -41,28 +41,38 @@ final class RemoteDataSource: NSObject {
 
 extension RemoteDataSource: RemoteDataSourceProtocol {
 
-    func getGames() -> AnyPublisher<[GameResponse], Error> {
-        return Future<[GameResponse], Error> { completion in
-            if let url = URL(string: Endpoints.Gets.list.url) {
-                let parameters: [String: String] = [
-                    "key": self.apiKey,
-                    "ordering": "-relevance",
-                    "discover": "true",
-                    "page": "1"
-                ]
-
-                AF.request(url, parameters: parameters)
-                    .validate()
-                    .responseDecodable(of: GamesResponse.self) { response in
-                        switch response.result {
-                        case .success(let value):
-                            completion(.success(value.results))
-                        case .failure:
-                            completion(.failure(URLError.invalidResponse))
-                        }
-                    }
+    func getGames(page: Int) -> AnyPublisher<GamesResponse, Error> {
+        return Future<GamesResponse, Error> { completion in
+            guard let url = URL(string: Endpoints.Gets.list.url) else {
+                completion(.failure(URLError.invalidResponse))
+                return
             }
+
+            let parameters: [String: String] = [
+                "key": self.apiKey,
+                "ordering": "-relevance",
+                "discover": "true",
+                "page": "\(page)"
+            ]
+
+            AF.request(url, parameters: parameters)
+                .validate()
+                .responseDecodable(of: GamesResponse.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        completion(.success(value))
+                    case .failure(let error):
+                        completion(.failure(URLError.invalidResponse))
+                    }
+                }
         }.eraseToAnyPublisher()
+    }
+
+    // Modify existing getGames() to call getGames(page:) with page 1
+    func getGames() -> AnyPublisher<[GameResponse], Error> {
+        return getGames(page: 1)
+            .map { $0.results }
+            .eraseToAnyPublisher()
     }
 
     func getGameDetail(

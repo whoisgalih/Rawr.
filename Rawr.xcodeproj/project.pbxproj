@@ -47,6 +47,7 @@
 		F67821372CD852A20068ADCA /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67821362CD852A20068ADCA /* SearchRouter.swift */; };
 		F67821392CD8530D0068ADCA /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67821382CD8530D0068ADCA /* SearchView.swift */; };
 		F678213B2CD853B90068ADCA /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F678213A2CD853B90068ADCA /* SearchUseCase.swift */; };
+		F67821452CD8D63B0068ADCA /* PaginationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67821442CD8D63B0068ADCA /* PaginationState.swift */; };
 		F69BCE9128E511100078D3CA /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69BCE9028E511100078D3CA /* Rating.swift */; };
 		F69BCE9828E52B400078D3CA /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F69BCE9728E52B400078D3CA /* Poppins-SemiBoldItalic.ttf */; };
 		F6A4661228F3B96900533C02 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6A4661128F3B96900533C02 /* Launch Screen.storyboard */; };
@@ -105,6 +106,7 @@
 		F67821362CD852A20068ADCA /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		F67821382CD8530D0068ADCA /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		F678213A2CD853B90068ADCA /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
+		F67821442CD8D63B0068ADCA /* PaginationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationState.swift; sourceTree = "<group>"; };
 		F69BCE9028E511100078D3CA /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		F69BCE9728E52B400078D3CA /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		F6A4661028F2D45100533C02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		F60B56BD2CD6240D00EBFFFC /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				F67821442CD8D63B0068ADCA /* PaginationState.swift */,
 				F67821172CD797880068ADCA /* ScreenshotEntity.swift */,
 				F60B56E02CD63C6300EBFFFC /* GameEntity.swift */,
 				F60B570B2CD731D500EBFFFC /* GameDetailEntity.swift */,
@@ -635,6 +638,7 @@
 				F60B56EB2CD6407F00EBFFFC /* DetailView.swift in Sources */,
 				F67821282CD7A73D0068ADCA /* FavoriteInteractor.swift in Sources */,
 				F60B56F42CD641F200EBFFFC /* GamesResponse.swift in Sources */,
+				F67821452CD8D63B0068ADCA /* PaginationState.swift in Sources */,
 				F60B56C92CD62E8D00EBFFFC /* Injection.swift in Sources */,
 				F65BDEB628EA5EB000839DBC /* Tag.swift in Sources */,
 				F67821352CD852740068ADCA /* SearchPresenter.swift in Sources */,
