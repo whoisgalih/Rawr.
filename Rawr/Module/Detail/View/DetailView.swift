@@ -216,7 +216,7 @@ extension DetailView {
                                 HStack(spacing: 16) {
                                     ForEach(presenter.screenshots) { screenshot in
                                         VStack {
-                                            AsyncImage(url: URL(string: "\(screenshot.image)")) { image in
+                                            CachedAsyncImage(url: URL(string: "\(screenshot.image)")) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFill()
