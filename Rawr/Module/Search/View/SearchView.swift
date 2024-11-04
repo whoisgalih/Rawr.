@@ -42,7 +42,7 @@ struct SearchView: View {
                 .onSubmit(of: .search, presenter.searchGame)
             Spacer()
         }.navigationBarTitle(
-            Text("Search Games"),
+            Text("Search"),
             displayMode: .automatic
         )
     }

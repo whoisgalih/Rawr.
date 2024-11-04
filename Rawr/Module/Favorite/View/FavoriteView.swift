@@ -25,7 +25,7 @@ struct FavoriteView: View {
         }.onAppear {
             self.presenter.getFavoriteGames()
         }.navigationBarTitle(
-            Text("Favorite Games"),
+            Text("Favorite"),
             displayMode: .automatic
         )
     }

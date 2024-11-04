@@ -104,7 +104,9 @@ final class GameDetailMapper {
             genres: gameDetailEntities.genres.map { DeveloperMapper.mapDeveloperEntitiesToDomains(input: $0) },
             tags: gameDetailEntities.tags.map { DeveloperMapper.mapDeveloperEntitiesToDomains(input: $0) },
             publishers: gameDetailEntities.publishers.map { DeveloperMapper.mapDeveloperEntitiesToDomains(input: $0) },
-            esrbRating: gameDetailEntities.esrbRating != nil ? EsrbRatingMapper.mapEsrbRatingEntitiesToDomains(input: gameDetailEntities.esrbRating!) : nil,
+            esrbRating: gameDetailEntities.esrbRating != nil
+                ? EsrbRatingMapper.mapEsrbRatingEntitiesToDomains(input: gameDetailEntities.esrbRating!)
+                : nil,
             descriptionRaw: gameDetailEntities.descriptionRaw
         )
     }
@@ -126,9 +128,15 @@ final class GameDetailMapper {
             parentAchievementsCount: gameDetailResponses.parentAchievementsCount,
             developers: gameDetailResponses.developers.map { DeveloperMapper.mapDeveloperResponsesToDomains(input: $0) },
             genres: gameDetailResponses.genres.map { DeveloperMapper.mapDeveloperResponsesToDomains(input: $0) },
-            tags: gameDetailResponses.tags.map { DeveloperMapper.mapDeveloperResponsesToDomains(input: $0) },
-            publishers: gameDetailResponses.publishers.map { DeveloperMapper.mapDeveloperResponsesToDomains(input: $0) },
-            esrbRating: gameDetailResponses.esrbRating != nil ? EsrbRatingMapper.mapEsrbRatingResponsesToDomains(input: gameDetailResponses.esrbRating!) : nil,
+            tags: gameDetailResponses.tags.map {
+                DeveloperMapper.mapDeveloperResponsesToDomains(input: $0)
+            },
+            publishers: gameDetailResponses.publishers.map {
+                DeveloperMapper.mapDeveloperResponsesToDomains(input: $0)
+            },
+            esrbRating: gameDetailResponses.esrbRating != nil
+                ? EsrbRatingMapper.mapEsrbRatingResponsesToDomains(input: gameDetailResponses.esrbRating!)
+                : nil,
             descriptionRaw: gameDetailResponses.descriptionRaw
         )
     }

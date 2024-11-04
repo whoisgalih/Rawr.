@@ -34,10 +34,10 @@ struct GameResponse: Codable {
     let playtime, suggestionsCount: Int
     let updated: String
     let reviewsCount: Int
-    let parentPlatforms: [ParentPlatform]
-    let genres: [Genre]
-    let tags: [Genre]
-    let esrbRating: EsrbRating?
+    let parentPlatforms: [ParentPlatformResponse]
+    let genres: [GenreResponse]
+    let tags: [GenreResponse]
+    let esrbRating: EsrbRatingResponse?
 
     enum CodingKeys: String, CodingKey {
         case id, slug, name, released, tba
@@ -52,5 +52,26 @@ struct GameResponse: Codable {
         case parentPlatforms = "parent_platforms"
         case genres, tags
         case esrbRating = "esrb_rating"
+    }
+}
+
+// MARK: - ParentPlatform
+struct ParentPlatformResponse: Codable {
+    let platform: EsrbRatingResponse
+}
+
+// MARK: - Genre
+struct GenreResponse: Codable {
+    let id: Int
+    let name, slug: String
+    let gamesCount: Int
+    let imageBackground: String
+    let domain: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, slug
+        case gamesCount = "games_count"
+        case imageBackground = "image_background"
+        case domain
     }
 }
