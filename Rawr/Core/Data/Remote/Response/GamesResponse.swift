@@ -12,13 +12,9 @@ struct GamesResponse: Codable {
     let count: Int
     let next, previous: String?
     let results: [GameResponse]
-    let gamesCount, reviewsCount, recommendationsCount: Int
 
     enum CodingKeys: String, CodingKey {
         case count, next, previous, results
-        case gamesCount = "games_count"
-        case reviewsCount = "reviews_count"
-        case recommendationsCount = "recommendations_count"
     }
 }
 
@@ -64,8 +60,8 @@ struct ParentPlatformResponse: Codable {
 struct GenreResponse: Codable {
     let id: Int
     let name, slug: String
-    let gamesCount: Int
-    let imageBackground: String
+    let gamesCount: Int?
+    let imageBackground: String?
     let domain: String?
 
     enum CodingKeys: String, CodingKey {

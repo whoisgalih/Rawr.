@@ -225,10 +225,10 @@ extension LocaleDataSource: LocaleDataSourceProtocol {
                                     game.favorite = gameEntity.favorite
                                     realm.add(game, update: .all)
                                 } else {
-                                    realm.add(game)
+                                    realm.add(game, update: .modified)
                                 }
                             } else {
-                                realm.add(game)
+                                realm.add(game, update: .modified)
                             }
                         }
                     }
